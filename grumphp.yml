@@ -15,7 +15,7 @@ grumphp:
                         - "dd"
                         - "VarDumper"
             ignore_patterns:
-                - /^public\/libs\/.*/
+                - /^public\/js\/.*/
                 - /^config\/reference\.php$/
                 - /^config\/bundles\.php$/
             triggered_by: [php]
@@ -24,6 +24,8 @@ grumphp:
             level: 8
             triggered_by: ["php"]
             memory_limit: "-1"
+            ignore_patterns:
+                - /^public\/js\/ckeditor\/.*/
         phpcsfixer:
             config: ".php-cs-fixer.php"
             using_cache: false

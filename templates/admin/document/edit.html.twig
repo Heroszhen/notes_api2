@@ -1,0 +1,42 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+<section class="admin p-3">
+    <h1 class="mb-4">
+        {% if doc.createdAt is null %}
+        Ajouter un document
+        {% else %}
+        Modifier le document: {{ doc.title }}
+        {% endif %}
+    </h1>
+
+    {{ form_start(form) }}
+    <div class="mb-3">
+        {{ form_label(form.title, 'Titre *', {label_attr: {class: 'form-label'}}) }}
+        {{ form_widget(form.title, {attr: {class: 'form-control'}}) }}
+        {% for error in form.title.vars.errors %}
+            <div class="alert alert-danger mt-2">{{ error.message }}</div>
+        {% endfor %}
+    </div>
+    <div class="mb-3">
+        {{ form_label(form.content, 'Contenu *', {label_attr: {class: 'form-label'}}) }}
+        {{ form_widget(form.content, {attr: {class: 'ckeditor form-control'}}) }}
+        {% for error in form.content.vars.errors %}
+            <div class="alert alert-danger mt-2">{{ error.message }}</div>
+        {% endfor %}
+    </div>
+
+    {% include 'common/_flash_message.html.twig' %}
+
+    <div>
+       <button type="submit" class="btn btn-primary">Envoyer</button>
+    </div>
+    
+    {{ form_end(form) }}
+    
+</section>
+{% endblock %}
+{% block javascripts %}
+    {{ parent() }}
+    <script src="{{ asset('js/ckeditor/ckeditor.js') }}"></script>
+{% endblock %}

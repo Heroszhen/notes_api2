@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 $finder = (new PhpCsFixer\Finder())
     ->in(__DIR__)
-    ->exclude(['var', 'migrations', 'node_modules', 'assets'])
+    ->exclude(['var', 'migrations', 'node_modules', 'assets', 'public/js/ckeditor'])
     ->notPath([
         'config/bundles.php',
         'config/reference.php',

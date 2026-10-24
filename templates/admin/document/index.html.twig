@@ -4,10 +4,11 @@
 <section class="admin p-3">
     <h1 class="mb-4">
         Documents
-        <a href="" class="pointer">+</a>
+        <a href="{{ path('app_admin_edit_document') }}" class="pointer">+</a>
     </h1>
 
-    <table class="table table-striped">
+    {% include 'common/_flash_message.html.twig' %}
+    <table class="table table-striped mt-2">
         <thead class="table-primary">
             <tr>
                 <th scope="col">Id</th>
@@ -23,8 +24,8 @@
                 <td>{{ doc.title }}</td>
                 <td>{{ doc.createdAt|date('d/m/Y') }}</td>
                 <td>
-                    <a class="btn btn-sm btn-outline-info me-2">Modifier</a>
-                    <a class="btn btn-sm btn-outline-danger">Supprimer</a>
+                    <a class="btn btn-sm btn-outline-info me-2" href="{{ path('app_admin_edit_document', {id: doc.id}) }}">Modifier</a>
+                    <a class="btn btn-sm btn-outline-danger" href="{{ path('app_admin_delete_document', {id: doc.id}) }}">Supprimer</a>
                 </td>
             </tr>
         {% endfor %}

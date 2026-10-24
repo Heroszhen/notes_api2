@@ -10,3 +10,7 @@ import "./styles/app.scss";
 import $ from "jquery";
 
 console.log("This log comes from assets/app.js - welcome to AssetMapper! 🎉");
+
+setTimeout(() => {
+    $(".alert").remove();
+}, 3000);

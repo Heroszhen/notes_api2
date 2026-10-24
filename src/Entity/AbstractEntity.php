@@ -21,7 +21,7 @@ abstract class AbstractEntity
     #[Assert\Uuid]
     private string $id;
 
-    public function getId(): ?string
+    public function getId(): string
     {
         return $this->id;
     }
