@@ -1,3 +1,20 @@
 // add your SASS styles in this file
 @import 'functions';
 @import 'pages/login';
+
+img {
+    width: 100%;
+    height: auto;
+}
+
+iframe {
+    width: 100%;
+}
+
+a, a:hover {
+    text-decoration: none;
+}
+
+.pointer {
+    cursor: pointer;
+}
