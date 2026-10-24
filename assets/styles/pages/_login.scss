@@ -1,0 +1,7 @@
+#login {
+    @include flex;
+    form {
+        width: 400px;
+        max-width: 95%;
+    }
+}
