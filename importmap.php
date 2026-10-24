@@ -22,6 +22,10 @@ return [
         'path' => './assets/pages/login.js',
         'entrypoint' => true,
     ],
+    'doc' => [
+        'path' => './assets/pages/doc.js',
+        'entrypoint' => true,
+    ],
     '@hotwired/stimulus' => [
         'version' => '3.2.2',
     ],

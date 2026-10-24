@@ -79,6 +79,12 @@ final class DocumentController extends AbstractController
     #[Route('/delete/{id}', name: 'app_admin_delete_document', requirements: ['id' => Requirement::UUID], methods: ['GET'])]
     public function deleteDoc(Request $request, string $id): Response
     {
+        if (!$this->isCsrfTokenValid('delete'.$id, $request->query->getString('_token'))) {
+            $this->addFlash('danger', 'Action non autorisée.');
+
+            return $this->redirectToRoute('app_admin_documents');
+        }
+
         $doc = $this->documentRepository->find($id);
 
         if ($doc instanceof Document) {
