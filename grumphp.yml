@@ -1,0 +1,34 @@
+grumphp:
+    stop_on_failure: true
+    ignore_unstaged_changes: false
+    process_timeout: 60
+    tasks:
+        phpparser:
+            visitors:
+                no_exit_statements: ~
+                declare_strict_types: ~
+                forbidden_function_calls:
+                    blacklist:
+                        - "extract"
+                        - "var_dump"
+                        - "dump"
+                        - "dd"
+                        - "VarDumper"
+            ignore_patterns:
+                - /^public\/libs\/.*/
+                - /^config\/reference\.php$/
+                - /^config\/bundles\.php$/
+            triggered_by: [php]
+        phpstan:
+            configuration: "phpstan.neon"
+            level: 8
+            triggered_by: ["php"]
+            memory_limit: "-1"
+        phpcsfixer:
+            config: ".php-cs-fixer.php"
+            using_cache: false
+            triggered_by: ["php"]
+        securitychecker_symfony:
+            lockfile: ./composer.lock
+            format: ~
+            run_always: false

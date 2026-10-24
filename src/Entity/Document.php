@@ -1,11 +1,12 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Entity;
 
 use App\Repository\DocumentRepository;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
-use App\Entity\AbstractEntity;
 
 #[ORM\Entity(repositoryClass: DocumentRepository::class)]
 class Document extends AbstractEntity
