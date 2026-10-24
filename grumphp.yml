@@ -31,4 +31,4 @@ grumphp:
         securitychecker_symfony:
             lockfile: ./composer.lock
             format: ~
-            run_always: false
+            run_always: true

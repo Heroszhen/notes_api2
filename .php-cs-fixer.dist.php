@@ -11,8 +11,10 @@ $finder = (new PhpCsFixer\Finder())
     ]);
 
 return (new PhpCsFixer\Config())
+    ->setRiskyAllowed(true)
     ->setRules([
         '@Symfony' => true,
         'phpdoc_to_comment' => false,
+        'declare_strict_types' => true,
     ])
     ->setFinder($finder);
