@@ -4,8 +4,15 @@
 <section class="admin p-3">
     <h1 class="mb-4">
         Documents
-        <a href="{{ path('app_admin_edit_document') }}" class="pointer">+</a>
+        <a href="{{ path('app_admin_edit_document') }}" class="pointer" title="Ajouter un document">+</a>
     </h1>
+
+    <div class="mb-3">
+    {{ form_start(form) }}
+        {{ form_widget(form.keywords, {attr: {class: 'form-control'}}) }}
+        <button type="submit" class="d-none"></button>
+    {{ form_end(form) }}
+    </div>
 
     {% include 'common/_flash_message.html.twig' %}
     <table class="table table-striped mt-2">

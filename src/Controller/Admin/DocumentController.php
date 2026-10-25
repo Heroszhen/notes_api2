@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Controller\Admin;
 
 use App\Entity\Document;
+use App\Form\DocumentSearchType;
 use App\Form\DocumentType;
 use App\Repository\DocumentRepository;
 use Doctrine\ORM\EntityManagerInterface;
@@ -27,17 +28,28 @@ final class DocumentController extends AbstractController
     ) {
     }
 
-    #[Route('/', name: 'app_admin_documents', methods: ['GET'])]
+    #[Route('/', name: 'app_admin_documents', methods: ['GET', 'POST'])]
     public function index(Request $request): Response
     {
+        $qb = $this->documentRepository->createQueryBuilder('document')->orderBy('document.createdAt', 'DESC');
+
+        $form = $this->createForm(DocumentSearchType::class);
+        $form->handleRequest($request);
+        if ($form->isSubmitted() && $form->isValid()) {
+            if (!empty($form->getData()['keywords'])) {
+                $qb = $this->documentRepository->findByKeywords($form->getData()['keywords']);
+            }
+        }
+
         $docs = $this->paginator->paginate(
-            $this->documentRepository->createQueryBuilder('document')->orderBy('document.createdAt', 'DESC'),
+            $qb,
             $request->query->getInt('page', 1),
             20
         );
 
         return $this->render('admin/document/index.html.twig', [
             'docs' => $docs,
+            'form' => $form,
         ]);
     }
 

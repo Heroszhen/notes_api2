@@ -7,3 +7,9 @@ $("a.delete-doc").on("click", function (e) {
         document.location.assign($(this).attr("href"));
     }
 });
+
+$("#document_search_keywords").on("input", function (e) {
+    if (!(e.originalEvent instanceof InputEvent)) {
+        $("form[name='document_search']").trigger("submit");
+    }
+});

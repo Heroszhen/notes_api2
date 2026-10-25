@@ -6,6 +6,7 @@ namespace App\Repository;
 
 use App\Entity\Document;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
+use Doctrine\ORM\QueryBuilder;
 use Doctrine\Persistence\ManagerRegistry;
 
 /**
@@ -42,4 +43,22 @@ class DocumentRepository extends ServiceEntityRepository
     //            ->getOneOrNullResult()
     //        ;
     //    }
+
+    public function findByKeywords(string $keywords): QueryBuilder
+    {
+        $qb = $this->createQueryBuilder('document');
+
+        $qb
+            ->andWhere(
+                $qb->expr()->orX(
+                    'document.title LIKE :title',
+                    'document.content LIKE :content'
+                )
+            )
+            ->setParameter('title', "%{$keywords}%")
+            ->setParameter('content', "%{$keywords}%")
+            ->orderBy('document.createdAt', 'DESC');
+
+        return $qb;
+    }
 }
