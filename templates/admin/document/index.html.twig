@@ -2,8 +2,9 @@
 
 {% block body %}
 <section class="admin p-3">
+    {% include 'common/_breadcrumb.html.twig' %}
     <h1 class="mb-4">
-        Documents
+        Documents<i class="bi bi-trash"></i>
         <a href="{{ path('app_admin_edit_document') }}" class="pointer" title="Ajouter un document">+</a>
     </h1>
 

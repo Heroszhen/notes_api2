@@ -1,1 +1,2 @@
 php bin/console importmap:require jquery
+php bin/console importmap:require bootstrap-icons/font/bootstrap-icons.min.css

@@ -18,8 +18,14 @@ return [
         'path' => './assets/app.js',
         'entrypoint' => true,
     ],
-    'login' => ['path' => './assets/pages/login.js', 'entrypoint' => true],
-    'doc' => ['path' => './assets/pages/admin/doc.js', 'entrypoint' => true],
+    'login' => [
+        'path' => './assets/pages/login.js',
+        'entrypoint' => true,
+    ],
+    'doc' => [
+        'path' => './assets/pages/admin/doc.js',
+        'entrypoint' => true,
+    ],
     '@hotwired/stimulus' => [
         'version' => '3.2.2',
     ],
@@ -31,5 +37,9 @@ return [
     ],
     'jquery' => [
         'version' => '4.0.0',
+    ],
+    'bootstrap-icons/font/bootstrap-icons.min.css' => [
+        'version' => '1.13.2',
+        'type' => 'css',
     ],
 ];

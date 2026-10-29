@@ -2,6 +2,9 @@
 
 {% block body %}
 <section class="admin p-3">
+    {% include 'common/_breadcrumb.html.twig' with {'pages': [
+        { name: 'Documents', link: app.session.get('app_admin_documents_url')|default(path('app_admin_documents')) }
+    ]} %}
     <h1 class="mb-4">
         {% if doc.createdAt is null %}
         Ajouter un document

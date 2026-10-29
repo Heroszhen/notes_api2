@@ -35,3 +35,13 @@ a, a:hover {
         }
     }
 }
+
+#breadcrumb {
+    a {
+        color: gray;
+        &:hover {
+            color: rgb(100 100 255);
+            font-weight: bold;
+        }
+    } 
+}
