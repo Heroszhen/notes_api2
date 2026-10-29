@@ -1,0 +1,46 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+<section class="admin p-3">
+    {% include 'common/_breadcrumb.html.twig' %}
+    <h1 class="mb-4">
+        Actrices
+        <a href="{{ path('app_admin_edit_actress') }}" class="pointer" title="Ajouter une actrice">+</a>
+    </h1>
+
+    {% include 'common/_flash_message.html.twig' %}
+    <table class="table table-striped mt-2">
+        <thead class="table-primary">
+            <tr>
+                <th scope="col">
+                    {{ knp_pagination_sortable(actresses, 'Nom', 'actress.name') }}
+                </th>
+                <th scope="col">Photo</th>
+                <th scope="col">
+                    {{ knp_pagination_sortable(actresses, 'Pays', 'actress.country') }}
+                </th>
+                <th scope="col">
+                    {{ knp_pagination_sortable(actresses, 'Née', 'actress.birthday') }}
+                </th>
+                <th scope="col">Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for actress in actresses %}
+            <tr>
+                <th scope="row">{{ actress.name }}</th>
+                <td></td>
+                <td>{{ actress.country }}</td>
+                <td>{{ actress.birthday|date('d/m/Y') }}</td>
+                <td>
+                    <a class="btn btn-sm btn-outline-info me-2" href="{{ path('app_admin_edit_actress', {id: actress.id}) }}">Modifier</a>
+                </td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+    <div class="mt-3">
+        {{ knp_pagination_render(actresses) }}
+    </div>
+</section>
+{% endblock %}

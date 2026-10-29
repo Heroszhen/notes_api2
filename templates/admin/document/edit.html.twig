@@ -5,13 +5,13 @@
     {% include 'common/_breadcrumb.html.twig' with {'pages': [
         { name: 'Documents', link: app.session.get('app_admin_documents_url')|default(path('app_admin_documents')) }
     ]} %}
-    <h1 class="mb-4">
+    <h2 class="mb-4">
         {% if doc.createdAt is null %}
         Ajouter un document
         {% else %}
         Modifier le document: {{ doc.title }}
         {% endif %}
-    </h1>
+    </h2>
 
     {{ form_start(form) }}
     <div class="mb-3">

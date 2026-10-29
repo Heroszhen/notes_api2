@@ -1,0 +1,71 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+{% import 'common/_macros.html.twig' as util %}
+
+<section class="admin p-3">
+    {% include 'common/_breadcrumb.html.twig' with {'pages': [
+        { name: 'Actrices', link: app.session.get('app_admin_actresses_url')|default(path('app_admin_actresses')) }
+    ]} %}
+
+    <h2 class="mb-4">
+        {% if actress.createdAt is null %}
+        Ajouter une actrice
+        {% else %}
+        Modifier l'actrice: {{ actress.name }}
+        {% endif %}
+    </h2>
+    {{ form_start(form) }}
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-12 col-md-6 col-lg-8 mb-3">
+                <div class="row">
+                    <div class="col-lg-4 mb-3">
+                        {{ form_label(form.name) }}
+                        {{ form_widget(form.name) }}
+                        {% for error in form.name.vars.errors %}
+                            <div class="alert alert-danger mt-2">{{ error.message }}</div>
+                        {% endfor %}
+                    </div>
+                    <div class="col-lg-4 mb-3">
+                        {{ form_label(form.country) }}
+                        {{ form_widget(form.country) }}
+                        {% for error in form.country.vars.errors %}
+                            <div class="alert alert-danger mt-2">{{ error.message }}</div>
+                        {% endfor %}
+                    </div>
+                    <div class="col-lg-4 mb-3">
+                        {{ form_label(form.birthday) }}
+                        {{ form_widget(form.birthday) }}
+                    </div>
+                    <div  class="col-12 mb-3">
+                        {{ form_label(form.description) }}
+                        {{ form_widget(form.description) }}
+                    </div>
+                </div>
+            </div>
+            <div class="col-12 col-md-6 col-lg-4 mb-3">
+                {{ form_label(form.photo) }}
+                {{ form_widget(form.photo) }}
+                {% for error in form.photo.vars.errors %}
+                    <div class="alert alert-danger mt-2">{{ error.message }}</div>
+                {% endfor %}
+                <div class="preview-photo mt-3">
+                {% if actress.photo is not null %}
+                    <img src="{{ util.media_url(actress.photo.name) }}" alt="">
+                {% endif %}
+                </div>
+            </div>
+            <div class="col-12">
+                {% include 'common/_flash_message.html.twig' %}
+                <button type="submit" class="btn btn-primary mt-3">Envoyer</button>
+            </div>
+        <div>
+    </div>
+    {{ form_end(form) }}
+</section>
+{% endblock %}
+{% block javascripts %}
+    {{ parent() }}
+    <script src="{{ asset('js/ckeditor/ckeditor.js') }}"></script>
+{% endblock %}

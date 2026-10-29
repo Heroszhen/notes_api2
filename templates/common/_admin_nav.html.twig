@@ -11,13 +11,19 @@
         </li>
         <li class="nav-item dropdown">
           <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-            Dropdown
+            Actrice
           </a>
           <ul class="dropdown-menu">
-            <li><a class="dropdown-item" href="#">Action</a></li>
-            <li><a class="dropdown-item" href="#">Another action</a></li>
+            <li>
+              <a 
+                class="dropdown-item {% if app.request.attributes.get('_route') == 'app_admin_actresses' %}active{% endif %}" href="{{ path('app_admin_actresses') }}">
+                Actrices
+              </a>
+              </li>
+            <li><a class="dropdown-item" href="#">Photos</a></li>
+            <li><a class="dropdown-item" href="#">Vidéos</a></li>
             <li><hr class="dropdown-divider"></li>
-            <li><a class="dropdown-item" href="#">Something else here</a></li>
+            <li><a class="dropdown-item" href="#">Ajouter une vidéo</a></li>
           </ul>
         </li>
         

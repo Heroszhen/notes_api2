@@ -1,0 +1,9 @@
+framework:
+  http_client:
+    scoped_clients:
+      s3Client:
+        base_uri: '%env(resolve:ZHEN_API_ENDPOINT)%'
+        timeout: 60
+        headers:
+          Content-Type: 'application/json'
+          X-AUTH-API-KEY: '%env(resolve:ZHEN_API_APIKEY)%'
