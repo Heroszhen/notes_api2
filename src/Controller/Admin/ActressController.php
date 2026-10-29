@@ -12,6 +12,7 @@ use App\Service\S3Service;
 use Doctrine\ORM\EntityManagerInterface;
 use Knp\Component\Pager\PaginatorInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\DependencyInjection\Attribute\Autowire;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -28,6 +29,7 @@ final class ActressController extends AbstractController
         private readonly PaginatorInterface $paginator,
         private readonly EntityManagerInterface $entityManager,
         private readonly S3Service $s3Service,
+        #[Autowire(env: 'S3_ROOT')] private readonly string $s3Root,
     ) {
     }
 
@@ -39,8 +41,15 @@ final class ActressController extends AbstractController
         $actresses = $this->paginator->paginate(
             $qb,
             $request->query->getInt('page', 1),
-            20
+            20,
+            [
+                'defaultSortFieldName' => 'actress.name',
+                'defaultSortDirection' => 'asc',
+                'sortFieldAllowList' => ['actress.name', 'actress.country', 'actress.birthday'],
+            ]
         );
+
+        $request->getSession()->set('app_admin_actresses_url', $request->getUri());
 
         return $this->render('admin/actress/index.html.twig', [
             'actresses' => $actresses,
@@ -69,7 +78,7 @@ final class ActressController extends AbstractController
             $oldPhoto = null;
             $file = $form->get('photo')->getData();
             if ($file instanceof UploadedFile) {
-                $mediaObject = $this->s3Service->sendFile($file);
+                $mediaObject = $this->s3Service->sendFile($file, $this->s3Root);
 
                 if ($mediaObject instanceof MediaObject) {
                     $oldPhoto = $actress->getPhoto();

@@ -1,6 +1,8 @@
 {% extends 'base.html.twig' %}
 
 {% block body %}
+{% import 'common/_macros.html.twig' as util %}
+
 <section class="admin p-3">
     {% include 'common/_breadcrumb.html.twig' %}
     <h1 class="mb-4">
@@ -29,7 +31,11 @@
         {% for actress in actresses %}
             <tr>
                 <th scope="row">{{ actress.name }}</th>
-                <td></td>
+                <td>
+                {% if actress.photo is not null %}
+                    <img class="profile-photo" src="{{ util.media_url(actress.photo.name) }}" alt="">
+                {% endif %}
+                </td>
                 <td>{{ actress.country }}</td>
                 <td>{{ actress.birthday|date('d/m/Y') }}</td>
                 <td>

@@ -12,6 +12,7 @@ use Symfony\Component\Form\Extension\Core\Type\FileType;
 use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
+use Symfony\Component\Intl\Countries;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Validator\Constraints\Image;
 
@@ -19,6 +20,7 @@ class ActressType extends AbstractType
 {
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
+        $countries = array_values(Countries::getNames('fr'));
         $builder
             ->add('name', TextType::class, [
                 'label' => 'Nom *',
@@ -32,9 +34,10 @@ class ActressType extends AbstractType
                 'attr' => ['class' => 'form-control'],
                 'label_attr' => ['class' => 'form-label'],
                 'placeholder' => 'Choisissez un pays',
-                'preferred_choices' => ['US', 'CN', 'GB'],
                 'choice_translation_locale' => 'fr',
                 'empty_data' => '',
+                'choices' => array_combine($countries, $countries),
+                'preferred_choices' => ['États-Unis', 'Chine', 'Royaume-Uni'],
             ])
             ->add('birthday', DateType::class, [
                 'label' => 'Date de naissance',

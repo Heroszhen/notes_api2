@@ -1,1 +1,4 @@
-{% macro media_url(filename) %}{{ s3_url ~ '/' ~ s3_root ~ '/' ~ filename }}{% endmacro %}
+{% macro media_url(filename, is_video = false) %}
+    {% set root = is_video ? s3_root_audio : s3_root %}
+    {{ s3_url ~ '/' ~ root ~ '/' ~ filename }}
+{% endmacro %}

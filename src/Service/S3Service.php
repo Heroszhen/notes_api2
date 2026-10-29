@@ -21,7 +21,7 @@ readonly class S3Service
     ) {
     }
 
-    public function sendFile(UploadedFile $file, bool $toSave = true): ?MediaObject
+    public function sendFile(UploadedFile $file, string $root, bool $toSave = true): ?MediaObject
     {
         $newFileName = uniqid().'_'.$file->getClientOriginalName();
         try {
@@ -34,7 +34,7 @@ readonly class S3Service
             $formParts = [
                 'file' => $filePart,
                 'bucket' => $_ENV['S3_BUCKET'],
-                'path' => $_ENV['S3_ROOT'],
+                'path' => $root,
             ];
 
             $formData = new FormDataPart($formParts);
