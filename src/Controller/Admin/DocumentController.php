@@ -47,6 +47,8 @@ final class DocumentController extends AbstractController
             20
         );
 
+        $request->getSession()->set('app_admin_documents_url', $request->getUri());
+
         return $this->render('admin/document/index.html.twig', [
             'docs' => $docs,
             'form' => $form,

@@ -28,8 +28,9 @@
 
     {% include 'common/_flash_message.html.twig' %}
 
-    <div>
+    <div class="d-flex justify-content-between">
        <button type="submit" class="btn btn-primary">Envoyer</button>
+       <a class="btn btn-outline-dark" href="{{ app.session.get('app_admin_documents_url')|default(path('app_admin_documents')) }}">Retour</a>
     </div>
     
     {{ form_end(form) }}
