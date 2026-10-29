@@ -7,6 +7,7 @@ namespace App\Service;
 use App\Entity\MediaObject;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
+use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Mime\Part\DataPart;
 use Symfony\Component\Mime\Part\Multipart\FormDataPart;
 use Symfony\Contracts\HttpClient\HttpClientInterface;
@@ -63,5 +64,20 @@ readonly class S3Service
         }
 
         return null;
+    }
+
+    public function deleteFile(string $path): bool
+    {
+        try {
+            $response = $this->s3Client->request('POST', $_ENV['ZHEN_API_ENDPOINT'].'/s3files/delete', [
+                'json' => ['bucket' => $_ENV['S3_BUCKET'], 'path' => $_ENV['S3_ROOT'].'/'.$path],
+            ]);
+
+            return Response::HTTP_NO_CONTENT === $response->getStatusCode();
+        } catch (\Exception $e) {
+            $this->utilService->logHttpErrorMessage($e);
+        }
+
+        return false;
     }
 }

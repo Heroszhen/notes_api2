@@ -81,6 +81,8 @@ final class ActressController extends AbstractController
             $this->entityManager->flush();
 
             if ($oldPhoto instanceof MediaObject) {
+                $this->entityManager->initializeObject($oldPhoto);
+
                 $this->entityManager->remove($oldPhoto);
                 $this->entityManager->flush();
             }
