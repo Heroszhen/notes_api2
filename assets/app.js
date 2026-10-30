@@ -14,17 +14,13 @@ import { readFile } from "./util.js";
 console.log("This log comes from assets/app.js - welcome to AssetMapper! 🎉");
 
 $(function () {
-    $("img").on("dblclick", function (e) {
+    $(document).on("dblclick", "img", function () {
         let src = $(this).attr("src");
         $("#big-img img").attr("src", src);
         $("#big-img").removeClass("d-none");
     });
 
-    $("#big-img img").on("click", function (e) {
-        e.stopPropagation();
-    });
-
-    $("#big-img").on("click", function (e) {
+    $("#big-img").on("click", function () {
         $(this).addClass("d-none");
         $(this).find("img").attr("src", "");
     });

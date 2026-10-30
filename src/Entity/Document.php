@@ -18,7 +18,7 @@ class Document extends AbstractEntity
         min: 2,
         max: 50,
         minMessage: '2 caractères au minimum',
-        maxMessage: '5 caractères au max',
+        maxMessage: '50 caractères au max',
     )]
     private ?string $title = null;
 

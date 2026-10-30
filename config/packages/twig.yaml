@@ -2,7 +2,7 @@ twig:
     file_name_pattern: "*.twig"
     globals:
         s3_root: "%env(S3_ROOT)%"
-        s3_root_autio: "%env(S3_ROOT_AUDIO)%"
+        s3_root_audio: "%env(S3_ROOT_AUDIO)%"
         s3_url: "%env(S3_URL)%"
 
 when@test:
