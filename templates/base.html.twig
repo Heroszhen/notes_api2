@@ -24,6 +24,11 @@
         {% if 'admin' in app.request.attributes.get('_route') and is_granted('ROLE_ADMIN') %}
             {% include 'common/_admin_nav.html.twig' %}
         {% endif %}
+
+        {% if 'admin' not in app.request.attributes.get('_route') %}
+            {% include 'common/_nav.html.twig' %}
+        {% endif %}
+
         <main>
             {% block body %}{% endblock %}
         </main>

@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace App\Form;
 
 use App\Model\ActressSearchModel;
-use Symfony\Component\Form\Extension\Core\Type\CountryType;
+use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\Intl\Countries;
 use Symfony\Component\OptionsResolver\OptionsResolver;
@@ -19,7 +19,7 @@ class ActressSearchType extends SearchBarType
         $countries = array_values(Countries::getNames('fr'));
 
         $builder
-            ->add('country', CountryType::class, [
+            ->add('country', ChoiceType::class, [
                 'label' => 'Pays',
                 'attr' => ['class' => 'form-control'],
                 'label_attr' => ['class' => 'form-label'],

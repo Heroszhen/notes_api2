@@ -7,6 +7,9 @@
     <div class="collapse navbar-collapse" id="navbarSupportedContent">
       <ul class="navbar-nav me-auto mb-2 mb-lg-0">
         <li class="nav-item">
+          <a class="nav-link" aria-current="page" href="{{ path('app_home') }}">Accueil</a>
+        </li>
+        <li class="nav-item">
           <a class="nav-link {% if app.request.attributes.get('_route') == 'app_admin_documents' %}active{% endif %}" aria-current="page" href="{{ path('app_admin_documents') }}">Docs</a>
         </li>
         <li class="nav-item dropdown">
