@@ -8,7 +8,30 @@
     <h1 class="mb-4">
         Actrices
         <a href="{{ path('app_admin_edit_actress') }}" class="pointer" title="Ajouter une actrice">+</a>
+        <a class="pointer btn-filter-form" title="filtres">
+            <i class="bi bi-filter-square fs-4"></i>
+        </a>
     </h1>
+
+    <section class="p-3 wrap-filter-form mb-3 d-none">
+        {{ form_start(form) }}
+            <div class="container-fluid">
+                <div class="row">
+                    <div class="col-md-6 mb-3">
+                        {{ form_label(form.keywords) }}
+                        {{ form_widget(form.keywords) }}
+                    </div>
+                    <div class="col-md-6 mb-3">
+                        {{ form_label(form.country) }}
+                        {{ form_widget(form.country) }}
+                    </div>
+                    <div class="col-12">
+                        <button type="submit" class="btn btn-primary">Envoyer</button>
+                    </div>
+                </div>
+            </div>
+        {{ form_end(form) }}
+    </section>
 
     {% include 'common/_flash_message.html.twig' %}
     <table class="table table-striped mt-2">
@@ -49,4 +72,7 @@
         {{ knp_pagination_render(actresses) }}
     </div>
 </section>
+{% endblock %}
+{% block importmap %}
+    {{ importmap(['app', 'actress']) }}
 {% endblock %}

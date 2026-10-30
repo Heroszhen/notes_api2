@@ -44,3 +44,7 @@ $(".photo-input").on("change", async function (e) {
             .html(`<img src='${base64}' alt=''>`);
     }
 });
+
+$(".btn-filter-form").on("click", () => {
+    $(".wrap-filter-form").toggleClass("d-none");
+});

@@ -6,7 +6,9 @@ namespace App\Controller\Admin;
 
 use App\Entity\Actress;
 use App\Entity\MediaObject;
+use App\Form\ActressSearchType;
 use App\Form\ActressType;
+use App\Model\ActressSearchModel;
 use App\Repository\ActressRepository;
 use App\Service\S3Service;
 use Doctrine\ORM\EntityManagerInterface;
@@ -38,6 +40,13 @@ final class ActressController extends AbstractController
     {
         $qb = $this->actressRepository->createQueryBuilder('actress')->orderBy('actress.name', 'ASC');
 
+        $actressSearchModel = new ActressSearchModel();
+        $form = $this->createForm(ActressSearchType::class, $actressSearchModel);
+        $form->handleRequest($request);
+        if ($form->isSubmitted() && $form->isValid()) {
+            $qb = $this->actressRepository->findBySearchForm($actressSearchModel);
+        }
+
         $actresses = $this->paginator->paginate(
             $qb,
             $request->query->getInt('page', 1),
@@ -53,6 +62,7 @@ final class ActressController extends AbstractController
 
         return $this->render('admin/actress/index.html.twig', [
             'actresses' => $actresses,
+            'form' => $form,
         ]);
     }
 

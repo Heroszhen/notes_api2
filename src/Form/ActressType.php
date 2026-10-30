@@ -6,7 +6,7 @@ namespace App\Form;
 
 use App\Entity\Actress;
 use Symfony\Component\Form\AbstractType;
-use Symfony\Component\Form\Extension\Core\Type\CountryType;
+use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\DateType;
 use Symfony\Component\Form\Extension\Core\Type\FileType;
 use Symfony\Component\Form\Extension\Core\Type\TextareaType;
@@ -21,6 +21,7 @@ class ActressType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $countries = array_values(Countries::getNames('fr'));
+
         $builder
             ->add('name', TextType::class, [
                 'label' => 'Nom *',
@@ -29,15 +30,14 @@ class ActressType extends AbstractType
                 'empty_data' => '',
                 'required' => false,
             ])
-            ->add('country', CountryType::class, [
+            ->add('country', ChoiceType::class, [
                 'label' => 'Pays *',
                 'attr' => ['class' => 'form-control'],
                 'label_attr' => ['class' => 'form-label'],
                 'placeholder' => 'Choisissez un pays',
-                'choice_translation_locale' => 'fr',
-                'empty_data' => '',
                 'choices' => array_combine($countries, $countries),
                 'preferred_choices' => ['États-Unis', 'Chine', 'Royaume-Uni'],
+                'empty_data' => '',
             ])
             ->add('birthday', DateType::class, [
                 'label' => 'Date de naissance',

@@ -15,10 +15,11 @@ abstract class SearchBarType extends AbstractType
     {
         $builder
             ->add('keywords', SearchType::class, [
-                'label' => false,
+                'label' => 'Mot de clé',
                 'empty_data' => '',
                 'required' => false,
-                'attr' => ['placeholder' => $this->getPlaceholder()],
+                'attr' => ['placeholder' => $this->getPlaceholder(), 'class' => 'form-control'],
+                'label_attr' => ['class' => 'form-label'],
             ]);
     }
 

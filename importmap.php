@@ -26,6 +26,10 @@ return [
         'path' => './assets/pages/admin/doc.js',
         'entrypoint' => true,
     ],
+    'actress' => [
+        'path' => './assets/pages/admin/actress.js',
+        'entrypoint' => true,
+    ],
     '@hotwired/stimulus' => [
         'version' => '3.2.2',
     ],
