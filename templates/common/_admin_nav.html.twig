@@ -22,8 +22,13 @@
                 class="dropdown-item {% if app.request.attributes.get('_route') == 'app_admin_actresses' %}active{% endif %}" href="{{ path('app_admin_actresses') }}">
                 Actrices
               </a>
-              </li>
-            <li><a class="dropdown-item" href="#">Photos</a></li>
+            </li>
+            <li>
+              <a 
+                class="dropdown-item {% if app.request.attributes.get('_route') == 'app_admin_actress_photos' %}active{% endif %}" href="{{ path('app_admin_actress_photos') }}">
+                Photos
+              </a>
+            </li>
             <li><a class="dropdown-item" href="#">Vidéos</a></li>
             <li><hr class="dropdown-divider"></li>
             <li><a class="dropdown-item" href="#">Ajouter une vidéo</a></li>

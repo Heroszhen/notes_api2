@@ -1,0 +1,15 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+{% import 'common/_macros.html.twig' as util %}
+
+<section class="admin p-3">
+    <h1 class="mb-4">
+        Photos
+        <a href="{{ path('app_admin_edit_actress') }}" class="pointer" title="Ajouter une actrice">+</a>
+        <a class="pointer btn-filter-form" title="filtres">
+            <i class="bi bi-filter-square fs-4"></i>
+        </a>
+    </h1>
+</section>
+{% endblock %}

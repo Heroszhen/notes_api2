@@ -5,6 +5,8 @@ declare(strict_types=1);
 namespace App\Entity;
 
 use App\Repository\ActressRepository;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
@@ -29,6 +31,17 @@ class Actress extends AbstractEntity
 
     #[ORM\ManyToOne]
     private ?MediaObject $photo = null;
+
+    /**
+     * @var Collection<int, ActressPhoto>
+     */
+    #[ORM\OneToMany(targetEntity: ActressPhoto::class, mappedBy: 'actress', orphanRemoval: true)]
+    private Collection $images;
+
+    public function __construct()
+    {
+        $this->images = new ArrayCollection();
+    }
 
     public function getName(): ?string
     {
@@ -86,6 +99,36 @@ class Actress extends AbstractEntity
     public function setPhoto(?MediaObject $photo): static
     {
         $this->photo = $photo;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, ActressPhoto>
+     */
+    public function getImages(): Collection
+    {
+        return $this->images;
+    }
+
+    public function addImage(ActressPhoto $image): static
+    {
+        if (!$this->images->contains($image)) {
+            $this->images->add($image);
+            $image->setActress($this);
+        }
+
+        return $this;
+    }
+
+    public function removeImage(ActressPhoto $image): static
+    {
+        if ($this->images->removeElement($image)) {
+            // set the owning side to null (unless already changed)
+            if ($image->getActress() === $this) {
+                $image->setActress(null);
+            }
+        }
 
         return $this;
     }
