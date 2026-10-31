@@ -2,6 +2,7 @@
 @import 'functions';
 @import 'pages/login';
 @import 'pages/doc_edit';
+@import 'pages/actress_photo';
 
 img {
     width: 100%;
@@ -89,4 +90,10 @@ a, a:hover {
 #main-nav {
     height: 0;
     padding: 0;
+}
+
+.btn-fixed {
+    position: fixed;
+    left: 20px;
+    bottom: 20px;
 }

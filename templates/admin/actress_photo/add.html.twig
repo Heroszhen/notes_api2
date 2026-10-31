@@ -1,0 +1,52 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+{% import 'common/_macros.html.twig' as util %}
+
+<section class="admin p-3">
+    {% include 'common/_breadcrumb.html.twig' with {'pages': [
+        { name: 'Photos', link: app.session.get('app_admin_actress_photos_url')|default(path('app_admin_actress_photos')) }
+    ]} %}
+
+    <h2 class="mb-4">
+        Ajouter des photos
+    </h2>
+
+    {{ form_start(form) }}
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-12mb-3">
+                <div class="row">
+                    <div class="col-12 col-md-4 mb-3">
+                        {{ form_label(form.actress) }}
+                        {{ form_widget(form.actress) }}
+                        {% for error in form.actress.vars.errors %}
+                            <div class="alert alert-danger mt-2">{{ error.message }}</div>
+                        {% endfor %}
+                    </div>
+                    <div class="col-12 col-md-4 mb-3">
+                        {{ form_label(form.visible) }}
+                        {{ form_widget(form.visible) }}
+                    </div>
+                </div>
+            </div>
+            <div class="col-12 mb-3">
+                {{ form_label(form.photos) }}
+                {{ form_widget(form.photos) }}
+                {% for error in form.photos.vars.errors %}
+                    <div class="alert alert-danger mt-2">{{ error.message }}</div>
+                {% endfor %}
+                <section id="wrap-photos" class="mt-2 row"></section>
+            </div>
+            <div class="col-12">
+                {% include 'common/_flash_message.html.twig' %}
+            </div>
+        </div>
+    </div>
+    <button type="submit" class="btn btn-primary mt-3 btn-fixed">Envoyer</button>
+    {{ form_end(form) }}
+</section>
+{% endblock %}
+{% block importmap %}
+    {{ importmap(['app', 'actress_photo']) }}
+{% endblock %}

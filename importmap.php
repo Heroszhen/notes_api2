@@ -30,6 +30,10 @@ return [
         'path' => './assets/pages/admin/actress.js',
         'entrypoint' => true,
     ],
+    'actress_photo' => [
+        'path' => './assets/pages/admin/actress_photo.js',
+        'entrypoint' => true,
+    ],
     '@hotwired/stimulus' => [
         'version' => '3.2.2',
     ],

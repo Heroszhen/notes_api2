@@ -14,11 +14,12 @@ class ActressPhoto extends AbstractEntity
     #[ORM\JoinColumn(nullable: false)]
     private ?Actress $actress = null;
 
-    #[ORM\Column(length: 255)]
-    private ?string $name = null;
-
     #[ORM\Column]
     private bool $visible = true;
+
+    #[ORM\OneToOne(cascade: ['persist', 'remove'])]
+    #[ORM\JoinColumn(nullable: false)]
+    private MediaObject $photo;
 
     public function getActress(): ?Actress
     {
@@ -32,19 +33,7 @@ class ActressPhoto extends AbstractEntity
         return $this;
     }
 
-    public function getName(): ?string
-    {
-        return $this->name;
-    }
-
-    public function setName(string $name): static
-    {
-        $this->name = $name;
-
-        return $this;
-    }
-
-    public function isVisible(): bool
+    public function getVisible(): bool
     {
         return $this->visible;
     }
@@ -52,6 +41,18 @@ class ActressPhoto extends AbstractEntity
     public function setVisible(bool $visible): static
     {
         $this->visible = $visible;
+
+        return $this;
+    }
+
+    public function getPhoto(): MediaObject
+    {
+        return $this->photo;
+    }
+
+    public function setPhoto(MediaObject $photo): static
+    {
+        $this->photo = $photo;
 
         return $this;
     }

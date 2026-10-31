@@ -1,0 +1,10 @@
+#actress-photo {
+    .wrap-photo {
+        border: 2px solid transparent;
+        border-radius: 10px;
+        padding: 10px;
+        &:hover {
+            border-color: green;
+        }
+    }
+}

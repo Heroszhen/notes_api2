@@ -35,7 +35,7 @@ final class ActressController extends AbstractController
     ) {
     }
 
-    #[Route('', name: 'app_admin_actresses')]
+    #[Route('', name: 'app_admin_actresses', methods: ['GET'])]
     public function index(Request $request): Response
     {
         $qb = $this->actressRepository->createQueryBuilder('actress')->orderBy('actress.name', 'ASC');
