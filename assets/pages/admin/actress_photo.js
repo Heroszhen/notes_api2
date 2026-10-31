@@ -10,3 +10,14 @@ $("#actress_photo_photos").on("change", function () {
         `);
     });
 });
+
+$(".delete-actress-photo").on("click", async function (e) {
+    e.preventDefault();
+    const response = await fetch($(this).attr("href"), {
+        method: "DELETE",
+        headers: { "X-Requested-With": "XMLHttpRequest" },
+    });
+    if (response.ok) {
+        $(this).closest(".wrap-photo").remove();
+    }
+});

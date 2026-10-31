@@ -17,6 +17,7 @@ use Symfony\Component\DependencyInjection\Attribute\Autowire;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
+use Symfony\Component\Routing\Requirement\Requirement;
 use Symfony\Component\Security\Http\Attribute\IsGranted;
 
 #[Route('/admin/actresse_photos')]
@@ -83,5 +84,29 @@ final class ActressPhotoController extends AbstractController
         return $this->render('admin/actress_photo/add.html.twig', [
             'form' => $form,
         ]);
+    }
+
+    #[Route('/delete/{id}', name: 'app_admin_delete_actress_photo', requirements: ['id' => Requirement::UUID], methods: ['DELETE'])]
+    public function deleteActress(Request $request, string $id): Response
+    {
+        if (!$request->isXmlHttpRequest()) {
+            return $this->json(null, Response::HTTP_FORBIDDEN);
+        }
+
+        if (!$this->isCsrfTokenValid('delete'.$id, $request->query->getString('_token'))) {
+            return $this->json(null, Response::HTTP_FORBIDDEN);
+        }
+
+        $photo = $this->actressPhotoRepository->find($id);
+        if (!$photo instanceof ActressPhoto) {
+            return $this->json(null, Response::HTTP_NOT_FOUND);
+        }
+
+        $this->entityManager->initializeObject($photo->getPhoto());
+
+        $this->entityManager->remove($photo);
+        $this->entityManager->flush();
+
+        return $this->json(null, Response::HTTP_NO_CONTENT);
     }
 }
