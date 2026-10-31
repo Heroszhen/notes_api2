@@ -60,7 +60,7 @@
                 {% endif %}
                 </td>
                 <td>{{ actress.country }}</td>
-                <td>{{ actress.birthday|date('d/m/Y') }}</td>
+                <td>{{ actress.birthday ? actress.birthday|date('d/m/Y') : '' }}</td>
                 <td>
                     <a class="btn btn-sm btn-outline-info me-2" href="{{ path('app_admin_edit_actress', {id: actress.id}) }}">Modifier</a>
                 </td>

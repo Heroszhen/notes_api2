@@ -30,7 +30,7 @@ $(".delete-actress-photo").on("click", async function (e) {
 $(".activate-actress-photo").on("change", async function (e) {
     e.preventDefault();
 
-    const response = await fetch($(this).data("url"), {
+    await fetch($(this).data("url"), {
         method: "PATCH",
         headers: {
             "X-Requested-With": "XMLHttpRequest",
@@ -38,6 +38,4 @@ $(".activate-actress-photo").on("change", async function (e) {
         },
         body: JSON.stringify({ visible: $(this).prop("checked") }),
     });
-    if (response.ok) {
-    }
 });
