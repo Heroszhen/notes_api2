@@ -6,12 +6,14 @@ namespace App\Entity;
 
 use App\Repository\ActressPhotoRepository;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
 
 #[ORM\Entity(repositoryClass: ActressPhotoRepository::class)]
 class ActressPhoto extends AbstractEntity
 {
     #[ORM\ManyToOne(inversedBy: 'images')]
     #[ORM\JoinColumn(nullable: false)]
+    #[Assert\NotBlank]
     private ?Actress $actress = null;
 
     #[ORM\Column]

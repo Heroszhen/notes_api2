@@ -6,6 +6,7 @@ namespace App\Controller\Admin;
 
 use App\Entity\ActressPhoto;
 use App\Entity\MediaObject;
+use App\Form\ActressPhotoModifyType;
 use App\Form\ActressPhotoType;
 use App\Model\ActressPhotoModel;
 use App\Repository\ActressPhotoRepository;
@@ -14,6 +15,7 @@ use Doctrine\ORM\EntityManagerInterface;
 use Knp\Component\Pager\PaginatorInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\DependencyInjection\Attribute\Autowire;
+use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
@@ -41,8 +43,10 @@ final class ActressPhotoController extends AbstractController
         $actressePhotos = $this->paginator->paginate(
             $qb,
             $request->query->getInt('page', 1),
-            12
+            24
         );
+
+        $request->getSession()->set('app_admin_actress_photos_url', $request->getUri());
 
         return $this->render('admin/actress_photo/index.html.twig', [
             'actressePhotos' => $actressePhotos,
@@ -74,11 +78,7 @@ final class ActressPhotoController extends AbstractController
 
             $this->addFlash('success', 'Enregistrées avec succès');
 
-            $backUrl = $request->getSession()->get('app_admin_actress_photos_url');
-
-            return \is_string($backUrl)
-                ? $this->redirect($backUrl)
-                : $this->redirectToRoute('app_admin_actress_photos');
+            return $this->getRedirectionUrl($request);
         }
 
         return $this->render('admin/actress_photo/add.html.twig', [
@@ -87,7 +87,7 @@ final class ActressPhotoController extends AbstractController
     }
 
     #[Route('/delete/{id}', name: 'app_admin_delete_actress_photo', requirements: ['id' => Requirement::UUID], methods: ['DELETE'])]
-    public function deleteActress(Request $request, string $id): Response
+    public function deletePhoto(Request $request, string $id): Response
     {
         if (!$request->isXmlHttpRequest()) {
             return $this->json(null, Response::HTTP_FORBIDDEN);
@@ -108,5 +108,32 @@ final class ActressPhotoController extends AbstractController
         $this->entityManager->flush();
 
         return $this->json(null, Response::HTTP_NO_CONTENT);
+    }
+
+    #[Route('/modify/{id}', name: 'app_admin_modify_actress_photo', requirements: ['id' => Requirement::UUID], methods: ['GET', 'POST'])]
+    public function modifyPhoto(Request $request, ActressPhoto $actressPhoto): Response
+    {
+        $form = $this->createForm(ActressPhotoModifyType::class, $actressPhoto);
+        $form->handleRequest($request);
+        if ($form->isSubmitted() && $form->isValid()) {
+            $this->entityManager->persist($actressPhoto);
+            $this->entityManager->flush();
+
+            $this->addFlash('success', 'Enregistrée avec succès');
+        }
+
+        return $this->render('admin/actress_photo/modify.html.twig', [
+            'form' => $form,
+            'actressPhoto' => $actressPhoto,
+        ]);
+    }
+
+    private function getRedirectionUrl(Request $request): RedirectResponse
+    {
+        $backUrl = $request->getSession()->get('app_admin_actress_photos_url');
+
+        return \is_string($backUrl)
+            ? $this->redirect($backUrl)
+            : $this->redirectToRoute('app_admin_actress_photos');
     }
 }

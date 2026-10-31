@@ -13,11 +13,16 @@ $("#actress_photo_photos").on("change", function () {
 
 $(".delete-actress-photo").on("click", async function (e) {
     e.preventDefault();
+
+    if (!window.confirm("Veux-tu vraiment supprimer cette photo ?")) {
+        return;
+    }
+
     const response = await fetch($(this).attr("href"), {
         method: "DELETE",
         headers: { "X-Requested-With": "XMLHttpRequest" },
     });
     if (response.ok) {
-        $(this).closest(".wrap-photo").remove();
+        $(this).closest(".wrap-photo").parent().remove();
     }
 });

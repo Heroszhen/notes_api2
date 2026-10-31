@@ -21,10 +21,18 @@
                 <div class="wrap-photo">
                     <h5 class="text-center mb-1">{{ actress_photo.actress.name }}</h5>
                     <div class="d-flex justify-content-between mb-1">
-                        <a class="fs-4 pointer" title="Modifier une photo">
+                        <a 
+                            class="fs-4 pointer" 
+                            title="Modifier une photo"
+                            href="{{ path('app_admin_modify_actress_photo',  {id: actress_photo.id}) }}"
+                        >
                             <i class="bi bi-pencil-fill"></i>
                         </a>
-                        <a class="fs-4 pointer text-danger delete-actress-photo" title="Supprimer une photo" href="{{ path('app_admin_delete_actress_photo',  {id: actress_photo.id, _token: csrf_token('delete' ~ actress_photo.id)}) }}">
+                        <a 
+                            class="fs-4 pointer text-danger delete-actress-photo" 
+                            title="Supprimer une photo" 
+                            href="{{ path('app_admin_delete_actress_photo',  {id: actress_photo.id, _token: csrf_token('delete' ~ actress_photo.id)}) }}"
+                        >
                             <i class="bi bi-trash-fill"></i>
                         </a>
                     </div>
@@ -32,6 +40,9 @@
                 </div>
             </div>
         {% endfor %}
+            <div class="col-12 mt-2">
+                {{ knp_pagination_render(actressePhotos) }}
+            </div>
         </div>
     </div>
 </section>
