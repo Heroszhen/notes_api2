@@ -20,7 +20,7 @@
             <div class="col-6 col-md-4 col-lg-2 mb-5">
                 <div class="wrap-photo">
                     <h5 class="text-center mb-1">{{ actress_photo.actress.name }}</h5>
-                    <div class="d-flex justify-content-between mb-1">
+                    <div class="d-flex justify-content-between align-items-center mb-1">
                         <a 
                             class="fs-4 pointer" 
                             title="Modifier une photo"
@@ -28,6 +28,16 @@
                         >
                             <i class="bi bi-pencil-fill"></i>
                         </a>
+                        <div class="form-check">
+                            <input 
+                                class="form-check-input activate-actress-photo" 
+                                type="checkbox" 
+                                value="" 
+                                id="photo-visible-{{ actress_photo.id }}"
+                                {% if actress_photo.visible is same as(true) %}checked{% endif %}
+                                data-url="{{ path('app_admin_activate_actress_photo',  {id: actress_photo.id, _token: csrf_token('patch' ~ actress_photo.id)}) }}"
+                            >
+                        </div>
                         <a 
                             class="fs-4 pointer text-danger delete-actress-photo" 
                             title="Supprimer une photo" 

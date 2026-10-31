@@ -18,6 +18,7 @@ use Symfony\Component\DependencyInjection\Attribute\Autowire;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\HttpKernel\Exception\BadRequestHttpException;
 use Symfony\Component\Routing\Attribute\Route;
 use Symfony\Component\Routing\Requirement\Requirement;
 use Symfony\Component\Security\Http\Attribute\IsGranted;
@@ -135,5 +136,34 @@ final class ActressPhotoController extends AbstractController
         return \is_string($backUrl)
             ? $this->redirect($backUrl)
             : $this->redirectToRoute('app_admin_actress_photos');
+    }
+
+    #[Route('/activate/{id}', name: 'app_admin_activate_actress_photo', requirements: ['id' => Requirement::UUID], methods: ['PATCH'])]
+    public function activatePhoto(Request $request, string $id): Response
+    {
+        if (!$request->isXmlHttpRequest()) {
+            return $this->json(null, Response::HTTP_FORBIDDEN);
+        }
+
+        if (!$this->isCsrfTokenValid('patch'.$id, $request->query->getString('_token'))) {
+            return $this->json(null, Response::HTTP_FORBIDDEN);
+        }
+
+        $photo = $this->actressPhotoRepository->find($id);
+        if (!$photo instanceof ActressPhoto) {
+            return $this->json(null, Response::HTTP_NOT_FOUND);
+        }
+
+        $visible = $request->getPayload()->get('visible');
+        if (!is_bool($visible)) {
+            throw new BadRequestHttpException('Visible is not found');
+        }
+
+        $photo->setVisible($visible);
+
+        $this->entityManager->persist($photo);
+        $this->entityManager->flush();
+
+        return $this->json(null, Response::HTTP_NO_CONTENT);
     }
 }

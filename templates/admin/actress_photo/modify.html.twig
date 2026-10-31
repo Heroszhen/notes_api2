@@ -14,26 +14,24 @@
 
     {{ form_start(form) }}
     <div class="container">
-        <div class="row justify-content-between">
-            <div class="col-12">
+        <div class="row justify-content-center">
+            <div class="col-12 col-lg-9">
                 {% include 'common/_flash_message.html.twig' %}
             </div>
             <div class="col-12 col-md-5 mb-3">
-                <div class="row">
-                    <div class="col-12 mb-3">
-                        {{ form_label(form.actress) }}
-                        {{ form_widget(form.actress) }}
-                        {% for error in form.actress.vars.errors %}
-                            <div class="alert alert-danger mt-2">{{ error.message }}</div>
-                        {% endfor %}
-                    </div>
-                    <div class="col-12 mb-3">
-                        {{ form_label(form.visible) }}
-                        {{ form_widget(form.visible) }}
-                    </div>
+                <div class="mb-3">
+                    {{ form_label(form.actress) }}
+                    {{ form_widget(form.actress) }}
+                    {% for error in form.actress.vars.errors %}
+                        <div class="alert alert-danger mt-2">{{ error.message }}</div>
+                    {% endfor %}
+                </div>
+                <div class="mb-3">
+                    {{ form_label(form.visible) }}
+                    {{ form_widget(form.visible) }}
                 </div>
             </div>
-            <div class="col-12 col-md-7 col-lg-4 mb-3">
+            <div class="col-12 col-md-5 col-lg-4 mb-3">
                 <img src="{{ util.media_url(actressPhoto.photo.name) }}" alt="">
             </div>
         </div>

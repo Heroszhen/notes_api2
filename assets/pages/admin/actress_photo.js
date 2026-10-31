@@ -26,3 +26,18 @@ $(".delete-actress-photo").on("click", async function (e) {
         $(this).closest(".wrap-photo").parent().remove();
     }
 });
+
+$(".activate-actress-photo").on("change", async function (e) {
+    e.preventDefault();
+
+    const response = await fetch($(this).data("url"), {
+        method: "PATCH",
+        headers: {
+            "X-Requested-With": "XMLHttpRequest",
+            "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ visible: $(this).prop("checked") }),
+    });
+    if (response.ok) {
+    }
+});
