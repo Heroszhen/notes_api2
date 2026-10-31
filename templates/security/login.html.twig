@@ -44,9 +44,12 @@
             </div>
         #}
         <div class="d-grid gap-2">
-            <button class="btn btn-lg btn-primary" type="submit">
-                Sign in
+            <button class="btn btn-primary mb-2" type="submit">
+                Se connecter
             </button>
+            <a href="{{ path('connect_google') }}" class="btn btn-outline-danger">
+                <i class="bi bi-google"></i> Se connecter avec Google
+            </a>
         </div>
     </form>
 </section>
