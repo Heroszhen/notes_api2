@@ -13,13 +13,14 @@ use League\OAuth2\Client\Provider\GoogleUser;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
-use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
 use Symfony\Component\Security\Core\Exception\AuthenticationException;
+use Symfony\Component\Security\Core\Exception\CustomUserMessageAuthenticationException;
 use Symfony\Component\Security\Http\Authenticator\Passport\Badge\UserBadge;
 use Symfony\Component\Security\Http\Authenticator\Passport\Passport;
 use Symfony\Component\Security\Http\Authenticator\Passport\SelfValidatingPassport;
+use Symfony\Component\Security\Http\SecurityRequestAttributes;
 
 final class GoogleAuthenticator extends OAuth2Authenticator
 {
@@ -28,7 +29,6 @@ final class GoogleAuthenticator extends OAuth2Authenticator
         private readonly UserRepository $userRepository,
         private readonly EntityManagerInterface $entityManager,
         private readonly UrlGeneratorInterface $urlGenerator,
-        private readonly UserPasswordHasherInterface $passwordHasher,
     ) {
     }
 
@@ -58,11 +58,11 @@ final class GoogleAuthenticator extends OAuth2Authenticator
 
                 // 3. sinon, nouveau compte
                 if (!$user instanceof User) {
-                    $user = (new User())->setEmail((string) $googleUser->getEmail());
-                    $user->setPassword($this->passwordHasher->hashPassword($user, bin2hex(random_bytes(32))));
+                    throw new CustomUserMessageAuthenticationException('Erreur');
                 }
 
                 $user->setGoogleId((string) $googleUser->getId());
+
                 $this->entityManager->persist($user);
                 $this->entityManager->flush();
 
@@ -78,6 +78,8 @@ final class GoogleAuthenticator extends OAuth2Authenticator
 
     public function onAuthenticationFailure(Request $request, AuthenticationException $exception): Response
     {
+        $request->getSession()->set(SecurityRequestAttributes::AUTHENTICATION_ERROR, $exception);
+
         return new RedirectResponse($this->urlGenerator->generate('app_login'));
     }
 }
