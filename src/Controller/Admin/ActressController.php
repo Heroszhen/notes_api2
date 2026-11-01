@@ -38,12 +38,14 @@ final class ActressController extends AbstractController
     #[Route('', name: 'app_admin_actresses', methods: ['GET'])]
     public function index(Request $request): Response
     {
+        $openedForm = false;
         $qb = $this->actressRepository->createQueryBuilder('actress')->orderBy('actress.name', 'ASC');
 
         $actressSearchModel = new ActressSearchModel();
         $form = $this->createForm(ActressSearchType::class, $actressSearchModel);
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
+            $openedForm = true;
             $qb = $this->actressRepository->findBySearchForm($actressSearchModel);
         }
 
@@ -63,6 +65,7 @@ final class ActressController extends AbstractController
         return $this->render('admin/actress/index.html.twig', [
             'actresses' => $actresses,
             'form' => $form,
+            'openedForm' => $openedForm,
         ]);
     }
 

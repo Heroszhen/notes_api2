@@ -1,4 +1,5 @@
 import $ from "jquery";
+import { flashMessage } from "../../util.js";
 
 $("#actress_photo_photos").on("change", function () {
     $("#wrap-photos").empty();
@@ -30,7 +31,7 @@ $(".delete-actress-photo").on("click", async function (e) {
 $(".activate-actress-photo").on("change", async function (e) {
     e.preventDefault();
 
-    await fetch($(this).data("url"), {
+    const response = await fetch($(this).data("url"), {
         method: "PATCH",
         headers: {
             "X-Requested-With": "XMLHttpRequest",
@@ -38,4 +39,6 @@ $(".activate-actress-photo").on("change", async function (e) {
         },
         body: JSON.stringify({ visible: $(this).prop("checked") }),
     });
+    if (response.ok) {
+    }
 });

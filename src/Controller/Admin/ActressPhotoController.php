@@ -41,12 +41,14 @@ final class ActressPhotoController extends AbstractController
     #[Route('', name: 'app_admin_actress_photos', methods: ['GET', 'POST'])]
     public function index(Request $request): Response
     {
+        $openedForm = false;
         $qb = $this->actressPhotoRepository->createQueryBuilder('actress_photo')->orderBy('actress_photo.createdAt', 'DESC');
 
         $actressSearchModel = new ActressSearchModel();
         $form = $this->createForm(ActressSearchType::class, $actressSearchModel);
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
+            $openedForm = true;
             $qb = $this->actressPhotoRepository->findBySearchForm($actressSearchModel);
         }
 
@@ -61,6 +63,7 @@ final class ActressPhotoController extends AbstractController
         return $this->render('admin/actress_photo/index.html.twig', [
             'actressePhotos' => $actressePhotos,
             'form' => $form,
+            'openedForm' => $openedForm,
         ]);
     }
 

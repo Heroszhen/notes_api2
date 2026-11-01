@@ -26,7 +26,7 @@ $(function () {
     });
 });
 
-setTimeout(() => {
+setInterval(() => {
     $("#flash-messages .alert").remove();
 }, 3000);
 

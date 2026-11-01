@@ -1,2 +1,3 @@
 php bin/console importmap:require jquery
 php bin/console importmap:require bootstrap-icons/font/bootstrap-icons.min.css
+php bin/console importmap:require toastify-js toastify-js/src/toastify.min.css
