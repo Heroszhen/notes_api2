@@ -1,5 +1,5 @@
 import $ from "jquery";
-import Toastify from "toastify-js";
+import { alertMessage } from "../../util.js";
 
 $("#actress_photo_photos").on("change", function () {
     $("#wrap-photos").empty();
@@ -33,14 +33,7 @@ $(".delete-actress-photo").on("click", async function (e) {
         message = "Erreur";
         type = "danger";
     }
-    Toastify({
-        text: message,
-        duration: 1000,
-        gravity: "top",
-        position: "right",
-        close: true,
-        className: `toast-${type}`,
-    }).showToast();
+    alertMessage(message, type);
 });
 
 $(".activate-actress-photo").on("change", async function (e) {
@@ -63,12 +56,5 @@ $(".activate-actress-photo").on("change", async function (e) {
         message = "Erreur";
         type = "danger";
     }
-    Toastify({
-        text: message,
-        duration: 1000,
-        gravity: "top",
-        position: "right",
-        close: true,
-        className: `toast-${type}`,
-    }).showToast();
+    alertMessage(message, type);
 });

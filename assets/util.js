@@ -1,3 +1,5 @@
+import Toastify from "toastify-js";
+
 /**
  *
  * @param {File} file
@@ -10,4 +12,21 @@ export const readFile = (file) => {
         reader.onerror = (error) => reject(error);
         reader.readAsDataURL(file);
     });
+};
+
+/**
+ *
+ * @param {string} message
+ * @param {string} type
+ * @param {number} duration
+ */
+export const alertMessage = (message, type, duration = 2000) => {
+    Toastify({
+        text: message,
+        duration: duration,
+        gravity: "top",
+        position: "right",
+        close: true,
+        className: `toast-${type}`,
+    }).showToast();
 };
