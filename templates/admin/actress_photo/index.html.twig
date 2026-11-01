@@ -13,6 +13,26 @@
         </a>
     </h1>
 
+    <section class="p-3 wrap-filter-form mb-3 d-none">
+        {{ form_start(form) }}
+            <div class="container-fluid">
+                <div class="row">
+                    <div class="col-md-6 mb-3">
+                        {{ form_label(form.keywords) }}
+                        {{ form_widget(form.keywords, {'attr': {'placeholder': 'Rechercher par nom'}}) }}
+                    </div>
+                    <div class="col-md-6 mb-3">
+                        {{ form_label(form.country) }}
+                        {{ form_widget(form.country) }}
+                    </div>
+                    <div class="col-12">
+                        <button type="submit" class="btn btn-primary">Envoyer</button>
+                    </div>
+                </div>
+            </div>
+        {{ form_end(form) }}
+    </section>
+
     {% include 'common/_flash_message.html.twig' %}
     <div class="container-fluid">
         <div class="row">

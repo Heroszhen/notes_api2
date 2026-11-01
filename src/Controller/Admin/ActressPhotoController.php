@@ -8,7 +8,9 @@ use App\Entity\ActressPhoto;
 use App\Entity\MediaObject;
 use App\Form\ActressPhotoModifyType;
 use App\Form\ActressPhotoType;
+use App\Form\ActressSearchType;
 use App\Model\ActressPhotoModel;
+use App\Model\ActressSearchModel;
 use App\Repository\ActressPhotoRepository;
 use App\Service\S3Service;
 use Doctrine\ORM\EntityManagerInterface;
@@ -41,6 +43,13 @@ final class ActressPhotoController extends AbstractController
     {
         $qb = $this->actressPhotoRepository->createQueryBuilder('actress_photo')->orderBy('actress_photo.createdAt', 'DESC');
 
+        $actressSearchModel = new ActressSearchModel();
+        $form = $this->createForm(ActressSearchType::class, $actressSearchModel);
+        $form->handleRequest($request);
+        if ($form->isSubmitted() && $form->isValid()) {
+            $qb = $this->actressPhotoRepository->findBySearchForm($actressSearchModel);
+        }
+
         $actressePhotos = $this->paginator->paginate(
             $qb,
             $request->query->getInt('page', 1),
@@ -51,6 +60,7 @@ final class ActressPhotoController extends AbstractController
 
         return $this->render('admin/actress_photo/index.html.twig', [
             'actressePhotos' => $actressePhotos,
+            'form' => $form,
         ]);
     }
 

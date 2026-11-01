@@ -5,7 +5,9 @@ declare(strict_types=1);
 namespace App\Repository;
 
 use App\Entity\ActressPhoto;
+use App\Model\ActressSearchModel;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
+use Doctrine\ORM\QueryBuilder;
 use Doctrine\Persistence\ManagerRegistry;
 
 /**
@@ -42,4 +44,23 @@ class ActressPhotoRepository extends ServiceEntityRepository
     //            ->getOneOrNullResult()
     //        ;
     //    }
+
+    public function findBySearchForm(ActressSearchModel $model): QueryBuilder
+    {
+        $qb = $this->createQueryBuilder('actressPhoto');
+
+        $qb
+            ->leftJoin('actressPhoto.actress', 'actress')
+            ->Where('actress.name LIKE :name')
+            ->setParameter('name', "%{$model->getKeywords()}%")
+            ->orderBy('actressPhoto.createdAt', 'DESC');
+
+        if (!empty($model->getCountry())) {
+            $qb
+                ->andWhere('actress.country = :country')
+                ->setParameter('country', $model->getCountry());
+        }
+
+        return $qb;
+    }
 }
