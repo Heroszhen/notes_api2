@@ -97,3 +97,11 @@ a, a:hover {
     left: 20px;
     bottom: 20px;
 }
+
+.toast-success {
+    background: linear-gradient(135deg, #24d583, #198754) !important;
+}
+
+.toast-danger {
+    background: linear-gradient(135deg, #e26b76, #dc3545) !important;
+}

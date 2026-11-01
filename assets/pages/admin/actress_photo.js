@@ -1,5 +1,5 @@
 import $ from "jquery";
-import { flashMessage } from "../../util.js";
+import Toastify from "toastify-js";
 
 $("#actress_photo_photos").on("change", function () {
     $("#wrap-photos").empty();
@@ -23,9 +23,24 @@ $(".delete-actress-photo").on("click", async function (e) {
         method: "DELETE",
         headers: { "X-Requested-With": "XMLHttpRequest" },
     });
+
+    let message, type;
     if (response.ok) {
+        message = "Supprimée";
+        type = "success";
         $(this).closest(".wrap-photo").parent().remove();
+    } else {
+        message = "Erreur";
+        type = "danger";
     }
+    Toastify({
+        text: message,
+        duration: 1000,
+        gravity: "top",
+        position: "right",
+        close: true,
+        className: `toast-${type}`,
+    }).showToast();
 });
 
 $(".activate-actress-photo").on("change", async function (e) {
@@ -39,6 +54,21 @@ $(".activate-actress-photo").on("change", async function (e) {
         },
         body: JSON.stringify({ visible: $(this).prop("checked") }),
     });
+
+    let message, type;
     if (response.ok) {
+        message = "Enregistrée";
+        type = "success";
+    } else {
+        message = "Erreur";
+        type = "danger";
     }
+    Toastify({
+        text: message,
+        duration: 1000,
+        gravity: "top",
+        position: "right",
+        close: true,
+        className: `toast-${type}`,
+    }).showToast();
 });

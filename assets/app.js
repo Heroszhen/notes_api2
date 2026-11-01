@@ -7,6 +7,7 @@ import "./stimulus_bootstrap.js";
  */
 import "bootstrap-icons/font/bootstrap-icons.min.css";
 import "./styles/app.scss";
+import "toastify-js/src/toastify.min.css";
 
 import $ from "jquery";
 import { readFile } from "./util.js";
