@@ -8,7 +8,6 @@ use App\Entity\Actress;
 use App\Entity\MediaObject;
 use App\Service\UtilService;
 use Doctrine\ORM\EntityManagerInterface;
-use Psr\Log\LoggerInterface;
 use Symfony\Component\Console\Attribute\AsCommand;
 use Symfony\Component\Console\Attribute\Option;
 use Symfony\Component\Console\Command\Command;
@@ -28,7 +27,6 @@ class AddV1ActressesCommand
     private string $folderPath = '/var/share/';
 
     public function __construct(
-        private readonly LoggerInterface $logger,
         private readonly Filesystem $filesystem,
         private readonly UtilService $utilService,
         private readonly EntityManagerInterface $entityManager,
@@ -49,7 +47,7 @@ class AddV1ActressesCommand
             return Command::FAILURE;
         }
 
-        $path = $this->projectDir . $this->folderPath . $filename;
+        $path = $this->projectDir.$this->folderPath.$filename;
         if (!$this->filesystem->exists($path)) {
             $io->error(sprintf('%s not found in %s', $filename, $this->folderPath));
 
@@ -59,18 +57,17 @@ class AddV1ActressesCommand
         $tab = $this->utilService->readCSV($path, ',');
         $io->progressStart(count($tab));
         foreach ($tab as $actressV1) {
-            //create photo
+            // create photo
             $mediaObject = null;
             if (!empty($actressV1['photo'])) {
                 $mediaObject = (new MediaObject())
                     ->setName($actressV1['photo'])
                     ->setOriginalName($actressV1['photo']);
 
-
                 $this->entityManager->persist($mediaObject);
             }
 
-            //add photo in created actress
+            // add photo in created actress
             $actress = (new Actress())
                 ->setName(trim($actressV1['name']))
                 ->setBirthday(new \DateTimeImmutable($actressV1['birthday']))
