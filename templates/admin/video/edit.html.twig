@@ -1,0 +1,103 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+{% import 'common/_macros.html.twig' as util %}
+
+<section class="admin p-3 pb-5">
+    {% include 'common/_breadcrumb.html.twig' with {'pages': [
+        { name: 'Vidéos', link: util.list_url('app_admin_videos') }
+    ]} %}
+
+    <h2 class="mb-4">
+        {% if video.createdAt is null %}
+        Ajouter une vidéo
+        {% else %}
+        Modifier la vidéo: {{ video.title }}
+        {% endif %}
+    </h2>
+
+    {% include 'common/_flash_message.html.twig' %}
+
+    {{ form_start(form) }}
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-12 mb-3">
+                {{ form_label(form.visible) }}
+                {{ form_widget(form.visible) }}
+            </div>
+            <div class="col-12 mb-3">
+                {{ form_label(form.title) }}
+                {{ form_widget(form.title) }}
+                {% for error in form.title.vars.errors %}
+                    <div class="alert alert-danger mt-2">{{ error.message }}</div>
+                {% endfor %}
+            </div>
+            <div class="col-lg-6 mb-3">
+                {{ form_label(form.actress) }}
+                {{ form_widget(form.actress) }}
+                {% for error in form.actress.vars.errors %}
+                    <div class="alert alert-danger mt-2">{{ error.message }}</div>
+                {% endfor %}
+            </div>
+            <div class="col-lg-6 mb-3">
+                {{ form_label(form.videoType) }}
+                {{ form_widget(form.videoType) }}
+            </div>
+            <div class="col-lg-6 mb-3">
+                {{ form_label(form.videoUrl) }}
+                {{ form_widget(form.videoUrl) }}
+                {% for error in form.videoUrl.vars.errors %}
+                    <div class="alert alert-danger mt-2">{{ error.message }}</div>
+                {% endfor %}
+            </div>
+            <div class="col-lg-6 mb-3">
+                {{ form_label(form.website) }}
+                {{ form_widget(form.website) }}
+                {% for error in form.website.vars.errors %}
+                    <div class="alert alert-danger mt-2">{{ error.message }}</div>
+                {% endfor %}
+            </div>
+            <div class="col-lg-6 mb-3">
+                {{ form_label(form.videoFile) }}
+                {{ form_widget(form.videoFile) }}
+                {% for error in form.videoFile.vars.errors %}
+                    <div class="alert alert-danger mt-2">{{ error.message }}</div>
+                {% endfor %}
+            </div>
+            <div class="col-lg-6 mb-3">
+                {{ form_label(form.photoFile) }}
+                {{ form_widget(form.photoFile) }}
+                {% for error in form.photoFile.vars.errors %}
+                    <div class="alert alert-danger mt-2">{{ error.message }}</div>
+                {% endfor %}
+                <div class="d-flex">   
+                    <div class="mt-2 w-50 p-2">
+                        <h5>Nouvelle photo</h5>
+                        <div class="preview-photo"></div>
+                    </div>
+                    <div class="mt-2 w-50 p-2">
+                        <h5>Photo Actuelle</h5>
+                        {% if video.photo is not null %}
+                            <img src="{{ util.media_url(video.photo.name) }}" alt="">
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+            <div class="col-12 mb-3">
+                {{ form_label(form.description) }}
+                {{ form_widget(form.description) }}
+                <div id="wrap-video"></div>
+            </div>
+        </div>
+    </div>
+    <button type="submit" class="btn btn-primary btn-fixed mt-3">Envoyer</button>
+    {{ form_end(form) }}
+</section>
+{% endblock %}
+{% block importmap %}
+    {{ importmap(['app', 'video']) }}
+{% endblock %}
+{% block javascripts %}
+    {{ parent() }}
+    <script src="{{ asset('js/ckeditor/ckeditor.js') }}"></script>
+{% endblock %}

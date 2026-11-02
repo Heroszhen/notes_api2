@@ -5,7 +5,7 @@
 
 <section class="admin p-3">
     {% include 'common/_breadcrumb.html.twig' with {'pages': [
-        { name: 'Actrices', link: app.session.get('app_admin_actresses_url')|default(path('app_admin_actresses')) }
+        { name: 'Actrices', link: util.list_url('app_admin_actresses') }
     ]} %}
 
     <h2 class="mb-4">

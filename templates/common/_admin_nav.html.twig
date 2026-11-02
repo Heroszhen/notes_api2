@@ -29,9 +29,19 @@
                 Photos
               </a>
             </li>
-            <li><a class="dropdown-item" href="#">Vidéos</a></li>
+            <li>
+              <a 
+                class="dropdown-item {% if app.request.attributes.get('_route') == 'app_admin_videos' %}active{% endif %}" href="{{ path('app_admin_videos') }}">
+                Vidéos
+              </a>
+            </li>
             <li><hr class="dropdown-divider"></li>
-            <li><a class="dropdown-item" href="#">Ajouter une vidéo</a></li>
+            <li>
+              <a 
+                class="dropdown-item {% if app.request.attributes.get('_route') == 'app_admin_edit_video' %}active{% endif %}" href="{{ path('app_admin_edit_video') }}">
+                Ajouter une vidéo
+              </a>
+            </li>
           </ul>
         </li>
         

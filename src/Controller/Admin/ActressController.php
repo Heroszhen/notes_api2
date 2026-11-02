@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Controller\Admin;
 
+use App\Controller\AbstractMainController;
 use App\Entity\Actress;
 use App\Entity\MediaObject;
 use App\Form\ActressSearchType;
@@ -13,7 +14,6 @@ use App\Repository\ActressRepository;
 use App\Service\S3Service;
 use Doctrine\ORM\EntityManagerInterface;
 use Knp\Component\Pager\PaginatorInterface;
-use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\DependencyInjection\Attribute\Autowire;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
 use Symfony\Component\HttpFoundation\Request;
@@ -24,7 +24,7 @@ use Symfony\Component\Security\Http\Attribute\IsGranted;
 
 #[Route('/admin/actresses')]
 #[IsGranted('ROLE_ADMIN')]
-final class ActressController extends AbstractController
+final class ActressController extends AbstractMainController
 {
     public function __construct(
         private readonly ActressRepository $actressRepository,
@@ -112,7 +112,7 @@ final class ActressController extends AbstractController
             $this->addFlash('success', 'Enregistrée avec succès');
 
             if (true === $isCreated) {
-                return $this->redirectToRoute('app_admin_actresses');
+                return $this->getRedirectionUrl($request, 'app_admin_actresses');
             }
         }
 

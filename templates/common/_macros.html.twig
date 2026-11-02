@@ -2,3 +2,7 @@
     {% set root = is_video ? s3_root_audio : s3_root %}
     {{ s3_url ~ '/' ~ root ~ '/' ~ filename }}
 {% endmacro %}
+
+{% macro list_url(url) %}
+    {{ app.session.get(url ~ '_url')|default(path(url)) }}
+{% endmacro %}

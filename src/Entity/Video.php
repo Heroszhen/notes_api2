@@ -9,6 +9,7 @@ use App\Repository\VideoRepository;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
+use Symfony\Component\Validator\Context\ExecutionContextInterface;
 
 #[ORM\Entity(repositoryClass: VideoRepository::class)]
 class Video extends AbstractEntity
@@ -28,11 +29,7 @@ class Video extends AbstractEntity
     private ?MediaObject $photo = null;
 
     #[ORM\Column(type: Types::TEXT)]
-    #[Assert\NotBlank]
     private ?string $videoUrl = null;
-
-    #[ORM\Column(type: Types::TEXT, nullable: true)]
-    private ?string $originalVideoUrl = null;
 
     #[ORM\Column]
     private bool $visible = true;
@@ -40,6 +37,11 @@ class Video extends AbstractEntity
     #[ORM\Column(enumType: VideoTypeEnum::class)]
     #[Assert\NotBlank]
     private VideoTypeEnum $videoType = VideoTypeEnum::EXTERN;
+
+    #[ORM\Column(type: Types::TEXT)]
+    #[Assert\NotBlank]
+    #[Assert\Url(protocols: ['https'], requireTld: true)]
+    private ?string $website = null;
 
     public function getTitle(): ?string
     {
@@ -101,18 +103,6 @@ class Video extends AbstractEntity
         return $this;
     }
 
-    public function getOriginalVideoUrl(): ?string
-    {
-        return $this->originalVideoUrl;
-    }
-
-    public function setOriginalVideoUrl(?string $originalVideoUrl): static
-    {
-        $this->originalVideoUrl = $originalVideoUrl;
-
-        return $this;
-    }
-
     public function getVisible(): bool
     {
         return $this->visible;
@@ -135,5 +125,27 @@ class Video extends AbstractEntity
         $this->videoType = $videoType;
 
         return $this;
+    }
+
+    public function getWebsite(): ?string
+    {
+        return $this->website;
+    }
+
+    public function setWebsite(?string $website): static
+    {
+        $this->website = $website;
+
+        return $this;
+    }
+
+    #[Assert\Callback]
+    public function validate(ExecutionContextInterface $context): void
+    {
+        if (empty($this->videoUrl) && empty($this->website)) {
+            $context->buildViolation('Veuillez uploader une video')
+                ->atPath('videoUrl')
+                ->addViolation();
+        }
     }
 }

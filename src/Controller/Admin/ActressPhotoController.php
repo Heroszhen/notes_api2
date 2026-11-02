@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Controller\Admin;
 
+use App\Controller\AbstractMainController;
 use App\Entity\ActressPhoto;
 use App\Entity\MediaObject;
 use App\Form\ActressPhotoModifyType;
@@ -15,9 +16,7 @@ use App\Repository\ActressPhotoRepository;
 use App\Service\S3Service;
 use Doctrine\ORM\EntityManagerInterface;
 use Knp\Component\Pager\PaginatorInterface;
-use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\DependencyInjection\Attribute\Autowire;
-use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Exception\BadRequestHttpException;
@@ -27,7 +26,7 @@ use Symfony\Component\Security\Http\Attribute\IsGranted;
 
 #[Route('/admin/actresse_photos')]
 #[IsGranted('ROLE_ADMIN')]
-final class ActressPhotoController extends AbstractController
+final class ActressPhotoController extends AbstractMainController
 {
     public function __construct(
         private readonly ActressPhotoRepository $actressPhotoRepository,
@@ -92,7 +91,7 @@ final class ActressPhotoController extends AbstractController
 
             $this->addFlash('success', 'Enregistrées avec succès');
 
-            return $this->getRedirectionUrl($request);
+            return $this->getRedirectionUrl($request, 'app_admin_add_actress_photos');
         }
 
         return $this->render('admin/actress_photo/add.html.twig', [
@@ -140,15 +139,6 @@ final class ActressPhotoController extends AbstractController
             'form' => $form,
             'actressPhoto' => $actressPhoto,
         ]);
-    }
-
-    private function getRedirectionUrl(Request $request): RedirectResponse
-    {
-        $backUrl = $request->getSession()->get('app_admin_actress_photos_url');
-
-        return \is_string($backUrl)
-            ? $this->redirect($backUrl)
-            : $this->redirectToRoute('app_admin_actress_photos');
     }
 
     #[Route('/activate/{id}', name: 'app_admin_activate_actress_photo', requirements: ['id' => Requirement::UUID], methods: ['PATCH'])]

@@ -21,7 +21,7 @@ readonly class S3Service
     ) {
     }
 
-    public function sendFile(UploadedFile $file, string $root, bool $toSave = true): ?MediaObject
+    public function sendFile(UploadedFile $file, string $root, bool $toSave = true): MediaObject|string|null
     {
         $newFileName = uniqid().'_'.$file->getClientOriginalName();
         try {
@@ -63,14 +63,14 @@ readonly class S3Service
             return $mediaObject;
         }
 
-        return null;
+        return $newFileName;
     }
 
-    public function deleteFile(string $path): bool
+    public function deleteFile(string $path, string $root): bool
     {
         try {
             $response = $this->s3Client->request('POST', $_ENV['ZHEN_API_ENDPOINT'].'/s3files/delete', [
-                'json' => ['bucket' => $_ENV['S3_BUCKET'], 'path' => $_ENV['S3_ROOT'].'/'.$path],
+                'json' => ['bucket' => $_ENV['S3_BUCKET'], 'path' => $root.'/'.$path],
             ]);
 
             return Response::HTTP_NO_CONTENT === $response->getStatusCode();
