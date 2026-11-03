@@ -127,4 +127,30 @@ final class VideoController extends AbstractMainController
             'video' => $video,
         ]);
     }
+
+    #[Route('/delete/{id}', name: 'app_admin_delete_video', requirements: ['id' => Requirement::UUID], methods: ['DELETE'])]
+    public function deleteVideo(Request $request, string $id): Response
+    {
+        if (!$request->isXmlHttpRequest()) {
+            return $this->json(null, Response::HTTP_FORBIDDEN);
+        }
+
+        if (!$this->isCsrfTokenValid('delete'.$id, $request->query->getString('_token'))) {
+            return $this->json(null, Response::HTTP_FORBIDDEN);
+        }
+
+        $video = $this->videoRepository->find($id);
+        if (!$video instanceof Video) {
+            return $this->json(null, Response::HTTP_NOT_FOUND);
+        }
+
+        if (null !== $video->getPhoto()) {
+            $this->entityManager->initializeObject($video->getPhoto());
+        }
+
+        $this->entityManager->remove($video);
+        $this->entityManager->flush();
+
+        return $this->json(null, Response::HTTP_NO_CONTENT);
+    }
 }
