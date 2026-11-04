@@ -31,6 +31,7 @@ final class VideoController extends AbstractMainController
         private readonly S3Service $s3Service,
         #[Autowire(env: 'S3_ROOT')] private readonly string $s3Root,
         #[Autowire(env: 'S3_ROOT_AUDIO')] private readonly string $s3RootAudio,
+        #[Autowire(env: 'S3_URL')] private readonly string $s3Url,
     ) {
     }
 
@@ -92,7 +93,7 @@ final class VideoController extends AbstractMainController
                 $videoName = $this->s3Service->sendFile($videoFile, $this->s3RootAudio, false);
 
                 if (is_string($videoName)) {
-                    $video->setVideoUrl($videoName);
+                    $video->setVideoUrl("{$this->s3Url}/{$this->s3RootAudio}/{$videoName}");
                     $toDeleteOldVideo = true;
                 }
             }

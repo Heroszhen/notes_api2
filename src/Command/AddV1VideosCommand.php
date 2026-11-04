@@ -67,7 +67,11 @@ class AddV1VideosCommand
         $tab = $this->utilService->readCSV($path, '{');
         $io->progressStart(count($tab));
         foreach ($tab as $videoV1) {
+            $description = $videoV1['actressname'];
+            $description .= 'NULL' === $videoV1['description'] ? '' : $videoV1['description'];
+
             $video = (new Video())
+                ->setDescription($description)
                 ->setActress($actress)
                 ->setVideoUrl($videoV1['videourl']);
 
@@ -80,8 +84,7 @@ class AddV1VideosCommand
                     $videoType = VideoTypeEnum::DOUYIN;
 
                     if (str_contains($videoV1['videourl'], '.mp4')) {
-                        $cutUrl = explode('/', $videoV1['videourl']);
-                        $video->setVideoUrl(end($cutUrl));
+                        $videoType = VideoTypeEnum::MP4;
                     }
                     break;
                 case '3':
@@ -100,11 +103,14 @@ class AddV1VideosCommand
                     break;
             }
 
+            if (VideoTypeEnum::INTEGRATION !== $videoType && VideoTypeEnum::MP4 !== $videoType) {
+                $video->setVideoUrl($videoV1['siteurl']);
+            }
+
             $video
                 ->setTitle($videoV1['name'])
                 ->setVideoType($videoType)
                 ->setVisible('0' === $videoV1['hidden'] ? true : false)
-                ->setDescription('NULL' === $videoV1['description'] ? null : $videoV1['description'])
                 ->setWebsite($videoV1['siteurl'])
                 ->setCreatedAt(new \DateTime($videoV1['created']));
 

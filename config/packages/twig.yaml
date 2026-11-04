@@ -4,6 +4,7 @@ twig:
         s3_root: "%env(S3_ROOT)%"
         s3_root_audio: "%env(S3_ROOT_AUDIO)%"
         s3_url: "%env(S3_URL)%"
+        zhen_front_service: "%env(ZHEN_FRONT_SERVICE)%"
 
 when@test:
     twig:

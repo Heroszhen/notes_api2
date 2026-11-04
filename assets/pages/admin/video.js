@@ -1,5 +1,10 @@
 import $ from "jquery";
 import { alertMessage } from "../../util.js";
+import { setUrlAndType } from "../video_player.js";
+
+$(function () {
+    setUrlAndType($("#video_videoUrl").val(), $("#video_videoType").val());
+});
 
 $("#video_videoFile").on("change", function () {
     $("#video_videoUrl").val(this.files[0]?.name ?? "");
@@ -29,4 +34,11 @@ $(".delete-video").on("click", async function (e) {
         }
         alertMessage(message, type);
     } catch {}
+});
+
+$("#video_videoUrl").on("change", function () {
+    setUrlAndType($("#video_videoUrl").val(), $("#video_videoType").val());
+});
+$("#video_videoType").on("change", function () {
+    setUrlAndType($("#video_videoUrl").val(), $("#video_videoType").val());
 });

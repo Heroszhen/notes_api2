@@ -23,6 +23,9 @@
                 <th scope="col">
                     {{ knp_pagination_sortable(videos, 'Actrice', 'video.actress') }}
                 </th>
+                <th scope="col">
+                    {{ knp_pagination_sortable(videos, 'Type', 'video.videoType') }}
+                </th>
                 <th scope="col">Visible</th>
                 <th scope="col">
                     {{ knp_pagination_sortable(videos, 'Ajoutée', 'video.createdAt') }}
@@ -40,12 +43,12 @@
                 {% endif %} #}
                 </td>
                 <td>{{ video.actress.name }}</td>
+                <td>{{ video.videoType.value }}</td>
                 <td></td>
                 <td>{{ video.createdAt|date('d/m/Y') }}</td>
                 <td>
                     <a class="btn btn-sm btn-outline-info me-2 mb-2" href="{{ path('app_admin_edit_video', {id: video.id}) }}">Modifier</a>
                     <a class="btn btn-sm btn-danger me-2 mb-2 delete-video" href="{{ path('app_admin_delete_video', {id: video.id, _token: csrf_token('delete' ~ video.id)}) }}">Supprimer</a>
-                    <a class="btn btn-sm btn-primary me-2 mb-2" title="Visualiser"><i class="bi bi-eye"></i></a>
                 </td>
             </tr>
         {% endfor %}

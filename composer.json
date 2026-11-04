@@ -96,6 +96,10 @@
         "sass-watch": [
             "Composer\\Config::disableProcessTimeout",
             "@php bin/console sass:build --watch"
+        ],
+        "server-http": [
+            "Composer\\Config::disableProcessTimeout",
+            "@php -S 127.0.0.1:8000 -t public"
         ]
     },
     "conflict": {

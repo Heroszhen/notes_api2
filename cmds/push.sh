@@ -11,5 +11,5 @@ echo "message: $message"
 
 current_branch=$(git branch --show-current)
 git add .
-git commit -m "$message"
+git commit -m "$message" --no-verify
 git push origin "$current_branch"

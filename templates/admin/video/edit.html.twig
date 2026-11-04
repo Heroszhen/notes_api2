@@ -3,7 +3,7 @@
 {% block body %}
 {% import 'common/_macros.html.twig' as util %}
 
-<section class="admin p-3 pb-5">
+<section class="admin p-3 pb-5" id="edit-video">
     {% include 'common/_breadcrumb.html.twig' with {'pages': [
         { name: 'Vidéos', link: util.list_url('app_admin_videos') }
     ]} %}
@@ -63,6 +63,7 @@
                 {% for error in form.videoFile.vars.errors %}
                     <div class="alert alert-danger mt-2">{{ error.message }}</div>
                 {% endfor %}
+                {% include 'common/_video_player.html.twig' %}
             </div>
             <div class="col-lg-6 mb-3">
                 {{ form_label(form.photoFile) }}
@@ -95,7 +96,7 @@
 </section>
 {% endblock %}
 {% block importmap %}
-    {{ importmap(['app', 'video']) }}
+    {{ importmap(['app', 'video', 'video_player']) }}
 {% endblock %}
 {% block javascripts %}
     {{ parent() }}
