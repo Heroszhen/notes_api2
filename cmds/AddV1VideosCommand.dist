@@ -1,0 +1,56 @@
+<?php
+
+declare(strict_types=1);
+
+namespace App\Command;
+
+use App\Service\UtilService;
+use Doctrine\ORM\EntityManagerInterface;
+use Symfony\Component\Console\Attribute\AsCommand;
+use Symfony\Component\Console\Attribute\Option;
+use Symfony\Component\Console\Command\Command;
+use Symfony\Component\Console\Style\SymfonyStyle;
+use Symfony\Component\DependencyInjection\Attribute\Autowire;
+use Symfony\Component\Filesystem\Filesystem;
+
+#[AsCommand(
+    name: 'app:add-v1-videos',
+    description: 'Add a short description for your command',
+)]
+class AddV1VideosCommand
+{
+    private string $folderPath = '/var/share/';
+
+    public function __construct(
+        private readonly Filesystem $filesystem,
+        private readonly UtilService $utilService,
+        private readonly EntityManagerInterface $entityManager,
+        #[Autowire('%kernel.project_dir%')]
+        private readonly string $projectDir,
+    ) {
+    }
+
+    public function __invoke(
+        SymfonyStyle $io,
+        #[Option('Name of file to import')] string $filename = '',
+    ): int {
+        $io->title('app:add-v1-videos');
+
+        if (empty($filename)) {
+            $io->error(sprintf('filename is not found'));
+
+            return Command::FAILURE;
+        }
+
+        $path = $this->projectDir.$this->folderPath.$filename;
+        if (!$this->filesystem->exists($path)) {
+            $io->error(sprintf('%s not found in %s', $filename, $this->folderPath));
+
+            return Command::FAILURE;
+        }
+
+        $io->success('Done');
+
+        return Command::SUCCESS;
+    }
+}
