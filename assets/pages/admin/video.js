@@ -1,9 +1,15 @@
 import $ from "jquery";
 import { alertMessage } from "../../util.js";
-import { setUrlAndType } from "../video_player.js";
+import {
+    setUrlAndTypeAfterLoadedIframe,
+    setUrlAndType,
+} from "../video_player.js";
 
 $(function () {
-    setUrlAndType($("#video_videoUrl").val(), $("#video_videoType").val());
+    setUrlAndTypeAfterLoadedIframe(
+        $("#video_videoUrl").val(),
+        $("#video_videoType").val()
+    );
 });
 
 $("#video_videoFile").on("change", function () {
@@ -41,4 +47,8 @@ $("#video_videoUrl").on("change", function () {
 });
 $("#video_videoType").on("change", function () {
     setUrlAndType($("#video_videoUrl").val(), $("#video_videoType").val());
+});
+
+$("#video_videoFile").on("change", function () {
+    setUrlAndType("url", "mp4", 700, $(this).prop("files")[0]);
 });
