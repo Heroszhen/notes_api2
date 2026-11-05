@@ -12,6 +12,7 @@ use App\Repository\VideoRepository;
 use App\Service\S3Service;
 use Doctrine\ORM\EntityManagerInterface;
 use Knp\Component\Pager\PaginatorInterface;
+use Psr\Log\LoggerInterface;
 use Symfony\Component\DependencyInjection\Attribute\Autowire;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
 use Symfony\Component\HttpFoundation\Request;
@@ -29,24 +30,33 @@ final class VideoController extends AbstractMainController
         private readonly PaginatorInterface $paginator,
         private readonly EntityManagerInterface $entityManager,
         private readonly S3Service $s3Service,
+        private readonly LoggerInterface $log,
         #[Autowire(env: 'S3_ROOT')] private readonly string $s3Root,
         #[Autowire(env: 'S3_ROOT_AUDIO')] private readonly string $s3RootAudio,
         #[Autowire(env: 'S3_URL')] private readonly string $s3Url,
+        #[Autowire(env: 'S3_BUCKET')] private readonly string $s3Bucket,
     ) {
     }
 
     #[Route('', name: 'app_admin_videos')]
     public function index(Request $request): Response
     {
-        $qb = $this->videoRepository->createQueryBuilder('video')->orderBy('video.createdAt', 'DESC');
+        $videos = [];
 
-        $videos = $this->paginator->paginate(
-            $qb,
-            $request->query->getInt('page', 1),
-            20
-        );
+        try {
+            $qb = $this->videoRepository->createQueryBuilder('video')->orderBy('video.createdAt', 'DESC');
 
-        $request->getSession()->set('app_admin_videos_url', $request->getUri());
+            $videos = $this->paginator->paginate(
+                $qb,
+                $request->query->getInt('page', 1),
+                20
+            );
+
+            $request->getSession()->set('app_admin_videos_url', $request->getUri());
+        } catch (\Throwable $e) {
+            $this->log->error('app_admin_videos', [$e->getMessage()]);
+            $this->addFlash('danger', 'Impossible de récupérer les vidéos');
+        }
 
         return $this->render('admin/video/index.html.twig', [
             'videos' => $videos,
@@ -74,53 +84,61 @@ final class VideoController extends AbstractMainController
         $form = $this->createForm(VideoFormType::class, $video);
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
-            // add photo
-            $photoFile = $form->get('photoFile')->getData();
-            $oldPhoto = null;
-            if ($photoFile instanceof UploadedFile) {
-                $photoMediaObject = $this->s3Service->sendFile($photoFile, $this->s3Root);
+            try {
+                // add photo
+                $photoFile = $form->get('photoFile')->getData();
+                $oldPhoto = null;
+                if ($photoFile instanceof UploadedFile) {
+                    $photoMediaObject = $this->s3Service->sendFile($photoFile, $this->s3Root);
 
-                if ($photoMediaObject instanceof MediaObject) {
-                    $oldPhoto = $video->getPhoto();
-                    $video->setPhoto($photoMediaObject);
+                    if ($photoMediaObject instanceof MediaObject) {
+                        $oldPhoto = $video->getPhoto();
+                        $video->setPhoto($photoMediaObject);
+                    }
                 }
-            }
 
-            // add video mp4
-            $toDeleteOldVideo = false;
-            $videoFile = $form->get('videoFile')->getData();
-            if ($videoFile instanceof UploadedFile) {
-                $videoName = $this->s3Service->sendFile($videoFile, $this->s3RootAudio, false);
+                // add video mp4
+                $toDeleteOldVideo = false;
+                $videoFile = $form->get('videoFile')->getData();
+                if ($videoFile instanceof UploadedFile) {
+                    $videoName = $this->s3Service->sendFile($videoFile, $this->s3RootAudio, false);
 
-                if (is_string($videoName)) {
-                    $video->setVideoUrl("{$this->s3Url}/{$this->s3RootAudio}/{$videoName}");
-                    $toDeleteOldVideo = true;
+                    if (is_string($videoName)) {
+                        $video->setVideoUrl("{$this->s3Url}/{$this->s3RootAudio}/{$videoName}");
+                        $toDeleteOldVideo = true;
+                    }
                 }
-            }
 
-            $this->entityManager->persist($video);
-            $this->entityManager->flush();
-
-            // delete old photo
-            if ($oldPhoto instanceof MediaObject) {
-                $this->entityManager->initializeObject($oldPhoto);
-
-                $this->entityManager->remove($oldPhoto);
+                $this->entityManager->persist($video);
                 $this->entityManager->flush();
+
+                // delete old photo
+                if ($oldPhoto instanceof MediaObject) {
+                    $this->entityManager->initializeObject($oldPhoto);
+
+                    $this->entityManager->remove($oldPhoto);
+                    $this->entityManager->flush();
+                }
+
+                // delete old video mp4
+                if (is_string($oldVideoUrl) && !empty($oldVideoUrl) && true === $toDeleteOldVideo) {
+                    if (str_contains($oldVideoUrl, $this->s3Bucket)) {
+                        $tab = explode('/', $oldVideoUrl);
+                        $this->s3Service->deleteFile(end($tab), $this->s3RootAudio);
+                    }
+                }
+
+                $this->addFlash('success', 'Enregistrée avec succès');
+
+                if (true === $isCreated) {
+                    return $this->getRedirectionUrl($request, 'app_admin_videos');
+                }
+
+                $form = $this->createForm(VideoFormType::class, $video);
+            } catch (\Throwable $e) {
+                $this->log->error('app_admin_edit_video', [$e->getMessage()]);
+                $this->addFlash('danger', "Erreur sur l'enregistrement de la vidéo");
             }
-
-            // delete old video mp4
-            if (is_string($oldVideoUrl) && !empty($oldVideoUrl) && true === $toDeleteOldVideo) {
-                $this->s3Service->deleteFile($oldVideoUrl, $this->s3RootAudio);
-            }
-
-            $this->addFlash('success', 'Enregistrée avec succès');
-
-            if (true === $isCreated) {
-                return $this->getRedirectionUrl($request, 'app_admin_videos');
-            }
-
-            $form = $this->createForm(VideoFormType::class, $video);
         }
 
         return $this->render('admin/video/edit.html.twig', [

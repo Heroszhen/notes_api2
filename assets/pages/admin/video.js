@@ -39,7 +39,9 @@ $(".delete-video").on("click", async function (e) {
             type = "danger";
         }
         alertMessage(message, type);
-    } catch {}
+    } catch {
+        alertMessage("Erreur", "danger");
+    }
 });
 
 $("#video_videoUrl").on("change", function () {
