@@ -42,6 +42,12 @@
                 Ajouter une vidéo
               </a>
             </li>
+            {% if app.request.attributes.get('_route') == 'app_admin_edit_video' and app.request.attributes.get('id') is not null %}
+              <a 
+                class="dropdown-item" href="{{ path('app_admin_delete_video_to_next', {id: app.request.attributes.get('id'), _token: csrf_token('delete' ~ video.id)}) }}" id="delete-video-to-next">
+                Supprimer la vidéo
+              </a>
+            {% endif %}
           </ul>
         </li>
         

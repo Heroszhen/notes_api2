@@ -195,4 +195,32 @@ final class VideoController extends AbstractMainController
 
         return $this->json(null, Response::HTTP_NO_CONTENT);
     }
+
+    #[Route('/delete/{id}/next', name: 'app_admin_delete_video_to_next', requirements: ['id' => Requirement::UUID], methods: ['GET'])]
+    public function deleteVideoAndToNext(Request $request, string $id): Response
+    {
+        if (!$this->isCsrfTokenValid('delete'.$id, $request->query->getString('_token'))) {
+            return $this->getRedirectionUrl($request, 'app_admin_videos');
+        }
+
+        $video = $this->videoRepository->find($id);
+        if (!$video instanceof Video) {
+            return $this->getRedirectionUrl($request, 'app_admin_videos');
+        }
+
+        $nextVideo = $this->videoRepository->findNextVideo($video);
+
+        if (null !== $video->getPhoto()) {
+            $this->entityManager->initializeObject($video->getPhoto());
+        }
+
+        $this->entityManager->remove($video);
+        $this->entityManager->flush();
+
+        if (null === $nextVideo) {
+            return $this->getRedirectionUrl($request, 'app_admin_videos');
+        }
+
+        return $this->redirectToRoute('app_admin_edit_video', ['id' => $nextVideo->getId()]);
+    }
 }

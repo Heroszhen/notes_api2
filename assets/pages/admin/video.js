@@ -44,6 +44,16 @@ $(".delete-video").on("click", async function (e) {
     }
 });
 
+$("#delete-video-to-next").on("click", function (e) {
+    e.preventDefault();
+
+    if (!window.confirm("Veux-tu vraiment supprimer cette vidéo ?")) {
+        return;
+    }
+
+    location.replace($(this).prop("href"));
+});
+
 $("#video_videoUrl").on("change", function () {
     setUrlAndType($("#video_videoUrl").val(), $("#video_videoType").val());
 });
