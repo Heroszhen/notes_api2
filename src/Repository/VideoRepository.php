@@ -18,28 +18,31 @@ class VideoRepository extends ServiceEntityRepository
         parent::__construct($registry, Video::class);
     }
 
-    //    /**
-    //     * @return Video[] Returns an array of Video objects
-    //     */
-    //    public function findByExampleField($value): array
-    //    {
-    //        return $this->createQueryBuilder('v')
-    //            ->andWhere('v.exampleField = :val')
-    //            ->setParameter('val', $value)
-    //            ->orderBy('v.id', 'ASC')
-    //            ->setMaxResults(10)
-    //            ->getQuery()
-    //            ->getResult()
-    //        ;
-    //    }
+    public function findNextVideo(Video $video): ?Video
+    {
+        return $this->createQueryBuilder('video')
+            ->Where('video.createdAt <= :createdAt')
+            ->andWhere('video.id != :id')
+            ->setParameter('createdAt', $video->getCreatedAt())
+            ->setParameter('id', $video->getId())
+            ->orderBy('video.createdAt', 'DESC')
+            ->addOrderBy('video.id', 'DESC')
+            ->setMaxResults(1)
+            ->getQuery()
+            ->getOneOrNullResult();
+    }
 
-    //    public function findOneBySomeField($value): ?Video
-    //    {
-    //        return $this->createQueryBuilder('v')
-    //            ->andWhere('v.exampleField = :val')
-    //            ->setParameter('val', $value)
-    //            ->getQuery()
-    //            ->getOneOrNullResult()
-    //        ;
-    //    }
+    public function findPreviousVideo(Video $video): ?Video
+    {
+        return $this->createQueryBuilder('video')
+            ->Where('video.createdAt >= :createdAt')
+            ->andWhere('video.id != :id')
+            ->setParameter('createdAt', $video->getCreatedAt())
+            ->setParameter('id', $video->getId())
+            ->orderBy('video.createdAt', 'ASC')
+            ->addOrderBy('video.id', 'ASC')
+            ->setMaxResults(1)
+            ->getQuery()
+            ->getOneOrNullResult();
+    }
 }

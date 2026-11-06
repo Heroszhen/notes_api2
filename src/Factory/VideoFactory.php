@@ -41,8 +41,9 @@ final class VideoFactory extends PersistentObjectFactory
             'actress' => ActressFactory::new(),
             'description' => self::faker()->paragraph(),
             'videoType' => VideoTypeEnum::EXTERN,
-            'videoUrl' => 'https://'.self::faker()->domainName().'/videos/'.self::faker()->uuid().'.mp4',
-            'website' => 'https://'.self::faker()->domainName(),
+            'videoUrl' => 'https://' . self::faker()->domainName() . '/videos/' . self::faker()->uuid() . '.mp4',
+            'website' => 'https://' . self::faker()->domainName(),
+            'createdAt' => self::faker()->dateTimeBetween('-3 years', 'now'),
         ];
     }
 

@@ -141,9 +141,18 @@ final class VideoController extends AbstractMainController
             }
         }
 
+        $previousVideo = null;
+        $nextVideo = null;
+        if (null !== $id) {
+            $nextVideo = $this->videoRepository->findNextVideo($video);
+            $previousVideo = $this->videoRepository->findPreviousVideo($video);
+        }
+
         return $this->render('admin/video/edit.html.twig', [
             'form' => $form,
             'video' => $video,
+            'previousVideo' => $previousVideo,
+            'nextVideo' => $nextVideo,
         ]);
     }
 
@@ -154,7 +163,7 @@ final class VideoController extends AbstractMainController
             return $this->json(null, Response::HTTP_FORBIDDEN);
         }
 
-        if (!$this->isCsrfTokenValid('delete'.$id, $request->query->getString('_token'))) {
+        if (!$this->isCsrfTokenValid('delete' . $id, $request->query->getString('_token'))) {
             return $this->json(null, Response::HTTP_FORBIDDEN);
         }
 

@@ -61,9 +61,7 @@ a, a:hover {
     width: 100%;
     height: 100vh;
     background-color: rgba(0, 0, 0, 0.75);
-    display: flex;
-    justify-content: center;
-    align-items: center;
+    @include flex();
     padding: 10px;
     overflow: hidden;
 
@@ -104,4 +102,15 @@ a, a:hover {
 
 .toast-danger {
     background: linear-gradient(135deg, #e26b76, #dc3545) !important;
+}
+
+.wrap-btn-fixed {
+    position: fixed;
+    width: 90%;
+    left: 5%;
+    bottom: 10px;
+    @include flex(space-between);
+    border: 1px solid black;
+    border-radius: 20px;
+    padding: 1px 10px 1px 10px;
 }
