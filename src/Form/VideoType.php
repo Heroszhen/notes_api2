@@ -69,14 +69,14 @@ class VideoType extends AbstractType
             ])
             ->add('videoType', EnumType::class, [
                 'label' => 'Type de vidéo *',
-                'attr' => ['class' => 'form-control'],
+                'attr' => ['class' => 'form-select'],
                 'class' => VideoTypeEnum::class,
                 'label_attr' => ['class' => 'form-label'],
                 'choice_label' => fn (VideoTypeEnum $type): string => $type->value,
             ])
             ->add('actress', EntityType::class, [
                 'label' => 'Actrice *',
-                'attr' => ['class' => 'form-control'],
+                'attr' => ['class' => 'form-select'],
                 'label_attr' => ['class' => 'form-label'],
                 'class' => Actress::class,
                 'choice_label' => 'name',

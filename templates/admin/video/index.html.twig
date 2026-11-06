@@ -13,6 +13,36 @@
         </a>
     </h1>
 
+    <section class="p-3 wrap-filter-form mb-3 {% if openedForm is same as (false) %}d-none{% endif %}">
+    {{ form_start(form) }}
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-md-6 mb-3">
+                    {{ form_label(form.keywords) }}
+                    {{ form_widget(form.keywords, {'attr': {'placeholder': 'Rechercher par titre ou description'}}) }}
+                </div>
+                <div class="col-md-6 mb-3">
+                    {{ form_label(form.website) }}
+                    {{ form_widget(form.website) }}
+                </div>
+                <div class="col-md-6 mb-3">
+                    {{ form_label(form.actress) }}
+                    {{ form_widget(form.actress) }}
+                </div>
+                <div class="col-md-6 mb-3">
+                    {{ form_label(form.videoType) }}
+                    {{ form_widget(form.videoType) }}
+                </div>
+                <div class="col-12">
+                    <button type="submit" class="btn btn-primary">Envoyer</button>
+                </div>
+            </div>
+        </div>
+    {{ form_end(form) }}
+    </section>
+
+    {% include 'common/_flash_message.html.twig' %}
+
     <table class="table table-striped mt-2">
         <thead class="table-primary">
             <tr>
@@ -21,7 +51,7 @@
                 </th>
                 <th scope="col">Photo</th>
                 <th scope="col">
-                    {{ knp_pagination_sortable(videos, 'Actrice', 'video.actress') }}
+                    {{ knp_pagination_sortable(videos, 'Actrice', 'actress.name') }}
                 </th>
                 <th scope="col">
                     {{ knp_pagination_sortable(videos, 'Type', 'video.videoType') }}

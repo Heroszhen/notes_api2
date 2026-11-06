@@ -32,7 +32,7 @@ class ActressType extends AbstractType
             ])
             ->add('country', ChoiceType::class, [
                 'label' => 'Pays *',
-                'attr' => ['class' => 'form-control'],
+                'attr' => ['class' => 'form-select'],
                 'label_attr' => ['class' => 'form-label'],
                 'placeholder' => 'Choisissez un pays',
                 'choices' => array_combine($countries, $countries),

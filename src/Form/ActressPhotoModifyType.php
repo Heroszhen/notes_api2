@@ -21,7 +21,7 @@ class ActressPhotoModifyType extends AbstractType
         $builder
             ->add('actress', EntityType::class, [
                 'label' => 'Actrice*',
-                'attr' => ['class' => 'form-control'],
+                'attr' => ['class' => 'form-select'],
                 'label_attr' => ['class' => 'form-label'],
                 'class' => Actress::class,
                 'choice_label' => 'name',

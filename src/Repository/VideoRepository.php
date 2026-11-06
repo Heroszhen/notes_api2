@@ -5,7 +5,9 @@ declare(strict_types=1);
 namespace App\Repository;
 
 use App\Entity\Video;
+use App\Model\VideoSearchModel;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
+use Doctrine\ORM\QueryBuilder;
 use Doctrine\Persistence\ManagerRegistry;
 
 /**
@@ -44,5 +46,46 @@ class VideoRepository extends ServiceEntityRepository
             ->setMaxResults(1)
             ->getQuery()
             ->getOneOrNullResult();
+    }
+
+    public function findBySearchForm(?VideoSearchModel $model = null): QueryBuilder
+    {
+        $qb = $this->createQueryBuilder('video')
+            ->leftJoin('video.actress', 'actress')
+            ->orderBy('video.createdAt', 'DESC');
+
+        if (null === $model) {
+            return $qb;
+        }
+
+        $qb
+            ->Where(
+                $qb->expr()->orX(
+                    'video.title LIKE :title',
+                    'video.description LIKE :description'
+                )
+            )
+            ->setParameter('title', "%{$model->getKeywords()}%")
+            ->setParameter('description', "%{$model->getKeywords()}%");
+
+        if (!empty($model->getActress())) {
+            $qb
+                ->andWhere('video.actress = :actress')
+                ->setParameter('actress', $model->getActress());
+        }
+
+        if (!empty($model->getVideoType())) {
+            $qb
+                ->andWhere('video.videoType = :videoType')
+                ->setParameter('videoType', $model->getVideoType());
+        }
+
+        if (!empty($model->getWebsite())) {
+            $qb
+                ->andWhere('video.website LIKE :website')
+                ->setParameter('website', "%{$model->getWebsite()}%");
+        }
+
+        return $qb;
     }
 }

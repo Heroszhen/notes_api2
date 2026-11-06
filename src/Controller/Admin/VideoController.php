@@ -7,7 +7,9 @@ namespace App\Controller\Admin;
 use App\Controller\AbstractMainController;
 use App\Entity\MediaObject;
 use App\Entity\Video;
+use App\Form\VideoSearchType;
 use App\Form\VideoType as VideoFormType;
+use App\Model\VideoSearchModel;
 use App\Repository\VideoRepository;
 use App\Service\S3Service;
 use Doctrine\ORM\EntityManagerInterface;
@@ -41,10 +43,20 @@ final class VideoController extends AbstractMainController
     #[Route('', name: 'app_admin_videos')]
     public function index(Request $request): Response
     {
+        $openedForm = false;
         $videos = [];
 
+        $qb = $this->videoRepository->findBySearchForm();
+
+        $searchModel = new VideoSearchModel();
+        $form = $this->createForm(VideoSearchType::class, $searchModel);
+
         try {
-            $qb = $this->videoRepository->createQueryBuilder('video')->orderBy('video.createdAt', 'DESC');
+            $form->handleRequest($request);
+            if ($form->isSubmitted() && $form->isValid()) {
+                $openedForm = true;
+                $qb = $this->videoRepository->findBySearchForm($searchModel);
+            }
 
             $videos = $this->paginator->paginate(
                 $qb,
@@ -60,6 +72,8 @@ final class VideoController extends AbstractMainController
 
         return $this->render('admin/video/index.html.twig', [
             'videos' => $videos,
+            'openedForm' => $openedForm,
+            'form' => $form,
         ]);
     }
 
@@ -163,7 +177,7 @@ final class VideoController extends AbstractMainController
             return $this->json(null, Response::HTTP_FORBIDDEN);
         }
 
-        if (!$this->isCsrfTokenValid('delete' . $id, $request->query->getString('_token'))) {
+        if (!$this->isCsrfTokenValid('delete'.$id, $request->query->getString('_token'))) {
             return $this->json(null, Response::HTTP_FORBIDDEN);
         }
 
