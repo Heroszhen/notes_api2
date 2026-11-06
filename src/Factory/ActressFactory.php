@@ -38,7 +38,7 @@ final class ActressFactory extends PersistentObjectFactory
         return [
             'country' => self::faker()->text(30),
             'name' => self::faker()->name(),
-            'birthday' => self::faker()->dateTimeBetween('-20 years', 'now'),
+            'birthday' => \DateTimeImmutable::createFromMutable(self::faker()->dateTimeBetween('-20 years', 'now')),
             'description' => self::faker()->realTextBetween(20, 100),
         ];
     }
