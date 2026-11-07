@@ -3,7 +3,7 @@
 {% block body %}
 {% import 'common/_macros.html.twig' as util %}
 
-<section class="admin p-3">
+<section class="admin p-3 pb-5">
     {% include 'common/_breadcrumb.html.twig' with {'pages': [
         { name: 'Actrices', link: util.list_url('app_admin_actresses') }
     ]} %}
@@ -15,6 +15,9 @@
         Modifier l'actrice: {{ actress.name }}
         {% endif %}
     </h2>
+
+    {% include 'common/_flash_message.html.twig' %}
+
     {{ form_start(form) }}
     <div class="container-fluid">
         <div class="row">
@@ -57,8 +60,7 @@
                 </div>
             </div>
             <div class="col-12">
-                {% include 'common/_flash_message.html.twig' %}
-                <button type="submit" class="btn btn-primary mt-3">Envoyer</button>
+                <button type="submit" class="btn btn-primary btn-fixed mt-3">Envoyer</button>
             </div>
         </div>
     </div>

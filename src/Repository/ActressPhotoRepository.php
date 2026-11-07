@@ -53,7 +53,8 @@ class ActressPhotoRepository extends ServiceEntityRepository
             ->leftJoin('actressPhoto.actress', 'actress')
             ->Where('actress.name LIKE :name')
             ->setParameter('name', "%{$model->getKeywords()}%")
-            ->orderBy('actressPhoto.createdAt', 'DESC');
+            ->orderBy('actressPhoto.createdAt', 'DESC')
+            ->addOrderBy('actressPhoto.id', 'DESC');
 
         if (!empty($model->getCountry())) {
             $qb

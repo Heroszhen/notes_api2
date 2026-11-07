@@ -68,13 +68,14 @@
             <tr>
                 <th scope="row">{{ video.title }}</th>
                 <td>
-                {# {% if actress.photo is not null %}
-                    <img class="profile-photo" src="{{ util.media_url(actress.photo.name) }}" alt="">
-                {% endif %} #}
+                {% if video.photo is not null %}
+                    <img class="profile-photo" src="{{ util.media_url(video.photo.name) }}" alt="">
+                {% endif %}
                 </td>
                 <td>{{ video.actress.name }}</td>
                 <td>{{ video.videoType.value }}</td>
-                <td></td>
+                <td>
+                </td>
                 <td>{{ video.createdAt|date('d/m/Y') }}</td>
                 <td>
                     <a class="btn btn-sm btn-outline-info me-2 mb-2" href="{{ path('app_admin_edit_video', {id: video.id}) }}">Modifier</a>

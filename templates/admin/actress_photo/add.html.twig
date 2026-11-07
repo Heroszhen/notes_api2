@@ -12,34 +12,31 @@
         Ajouter des photos
     </h2>
 
+    {% include 'common/_flash_message.html.twig' %}
+
     {{ form_start(form) }}
     <div class="container-fluid">
         <div class="row">
             <div class="col-12 mb-3">
-                <div class="row">
-                    <div class="col-12 col-md-4 mb-3">
-                        {{ form_label(form.actress) }}
-                        {{ form_widget(form.actress) }}
-                        {% for error in form.actress.vars.errors %}
-                            <div class="alert alert-danger mt-2">{{ error.message }}</div>
-                        {% endfor %}
-                    </div>
-                    <div class="col-12 col-md-4 mb-3">
-                        {{ form_label(form.visible) }}
-                        {{ form_widget(form.visible) }}
-                    </div>
-                </div>
+                {{ form_label(form.visible) }}
+                {{ form_widget(form.visible) }}
             </div>
-            <div class="col-12 mb-3">
+            <div class="col-12 col-md-6 mb-3">
+                {{ form_label(form.actress) }}
+                {{ form_widget(form.actress) }}
+                {% for error in form.actress.vars.errors %}
+                    <div class="alert alert-danger mt-2">{{ error.message }}</div>
+                {% endfor %}
+            </div>
+            <div class="col-12 col-md-6 mb-3">
                 {{ form_label(form.photos) }}
                 {{ form_widget(form.photos) }}
                 {% for error in form.photos.vars.errors %}
                     <div class="alert alert-danger mt-2">{{ error.message }}</div>
                 {% endfor %}
-                <section id="wrap-photos" class="mt-2 row"></section>
             </div>
             <div class="col-12">
-                {% include 'common/_flash_message.html.twig' %}
+                <section id="wrap-photos" class="mt-2 row"></section>
             </div>
         </div>
     </div>

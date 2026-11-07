@@ -41,7 +41,9 @@ final class ActressPhotoController extends AbstractMainController
     public function index(Request $request): Response
     {
         $openedForm = false;
-        $qb = $this->actressPhotoRepository->createQueryBuilder('actress_photo')->orderBy('actress_photo.createdAt', 'DESC');
+        $qb = $this->actressPhotoRepository->createQueryBuilder('actress_photo')
+            ->orderBy('actress_photo.createdAt', 'DESC')
+            ->addOrderBy('actress_photo.id', 'DESC');
 
         $actressSearchModel = new ActressSearchModel();
         $form = $this->createForm(ActressSearchType::class, $actressSearchModel);
