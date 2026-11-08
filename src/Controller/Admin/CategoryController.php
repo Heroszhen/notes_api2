@@ -33,7 +33,7 @@ final class CategoryController extends AbstractMainController
         } else {
             $category = $this->categoryRepository->find($id);
 
-            if (!($category instanceof Category)) {
+            if (!$category instanceof Category) {
                 return $this->redirectToRoute('app_admin_actresses');
             }
         }
