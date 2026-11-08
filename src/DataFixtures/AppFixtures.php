@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\DataFixtures;
 
 use App\Factory\ActressFactory;
+use App\Factory\CategoryFactory;
 use App\Factory\DocumentFactory;
 use App\Factory\UserFactory;
 use App\Factory\VideoFactory;
@@ -22,6 +23,7 @@ class AppFixtures extends Fixture
         UserFactory::createMany(5);
 
         DocumentFactory::createMany(5);
+        CategoryFactory::createMany(30);
         ActressFactory::createMany(5);
         VideoFactory::createMany(100, fn () => [
             'actress' => ActressFactory::random(),

@@ -4,6 +4,7 @@
 php bin/console c:w
 
 rm -rf vendor assets/vendor
+composer install
 
 php bin/console importmap:install
 php bin/console sass:build

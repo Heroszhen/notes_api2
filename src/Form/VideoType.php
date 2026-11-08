@@ -5,9 +5,11 @@ declare(strict_types=1);
 namespace App\Form;
 
 use App\Entity\Actress;
+use App\Entity\Category;
 use App\Entity\Video;
 use App\Enum\VideoTypeEnum;
 use App\Repository\ActressRepository;
+use App\Repository\CategoryRepository;
 use Doctrine\ORM\QueryBuilder;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
@@ -84,6 +86,18 @@ class VideoType extends AbstractType
                 'query_builder' => fn (ActressRepository $repository): QueryBuilder => $repository
                     ->createQueryBuilder('actress')
                     ->orderBy('actress.name', 'ASC'),
+            ])
+            ->add('categories', EntityType::class, [
+                'label' => 'Catégories',
+                'attr' => ['class' => 'form-select'],
+                'label_attr' => ['class' => 'form-label'],
+                'class' => Category::class,
+                'choice_label' => 'name',
+                'multiple' => true,
+                'required' => false,
+                'query_builder' => fn (CategoryRepository $repository): QueryBuilder => $repository
+                    ->createQueryBuilder('category')
+                    ->orderBy('category.name', 'ASC'),
             ])
             ->add('photoFile', FileType::class, [
                 'label' => 'Photo',
