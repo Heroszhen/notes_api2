@@ -83,6 +83,7 @@ class VideoType extends AbstractType
                 'class' => Actress::class,
                 'choice_label' => 'name',
                 'placeholder' => 'Choisissez une actrice',
+                'autocomplete' => true,
                 'query_builder' => fn (ActressRepository $repository): QueryBuilder => $repository
                     ->createQueryBuilder('actress')
                     ->orderBy('actress.name', 'ASC'),
@@ -94,6 +95,7 @@ class VideoType extends AbstractType
                 'class' => Category::class,
                 'choice_label' => 'name',
                 'multiple' => true,
+                'autocomplete' => true,
                 'required' => false,
                 'query_builder' => fn (CategoryRepository $repository): QueryBuilder => $repository
                     ->createQueryBuilder('category')

@@ -28,6 +28,7 @@ class ActressSearchType extends SearchBarType
                 'preferred_choices' => ['États-Unis', 'Chine', 'Royaume-Uni'],
                 'empty_data' => '',
                 'required' => false,
+                'autocomplete' => true,
             ]);
     }
 

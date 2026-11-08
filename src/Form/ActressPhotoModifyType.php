@@ -26,6 +26,7 @@ class ActressPhotoModifyType extends AbstractType
                 'class' => Actress::class,
                 'choice_label' => 'name',
                 'placeholder' => 'Choisissez une actrice',
+                'autocomplete' => true,
                 'query_builder' => fn (ActressRepository $repository): QueryBuilder => $repository
                     ->createQueryBuilder('actress')
                     ->orderBy('actress.name', 'ASC'),

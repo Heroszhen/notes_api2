@@ -69,4 +69,29 @@ return [
         'version' => '1.12.0',
         'type' => 'css',
     ],
+    'tom-select' => [
+        'version' => '2.7.0',
+    ],
+    '@orchidjs/sifter' => [
+        'version' => '1.1.0',
+    ],
+    '@orchidjs/unicode-variants' => [
+        'version' => '1.2.2',
+    ],
+    'tom-select/dist/css/tom-select.default.min.css' => [
+        'version' => '2.7.0',
+        'type' => 'css',
+    ],
+    'tom-select/dist/css/tom-select.default.css' => [
+        'version' => '2.7.0',
+        'type' => 'css',
+    ],
+    'tom-select/dist/css/tom-select.bootstrap4.css' => [
+        'version' => '2.7.0',
+        'type' => 'css',
+    ],
+    'tom-select/dist/css/tom-select.bootstrap5.css' => [
+        'version' => '2.7.0',
+        'type' => 'css',
+    ],
 ];

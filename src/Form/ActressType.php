@@ -38,6 +38,7 @@ class ActressType extends AbstractType
                 'choices' => array_combine($countries, $countries),
                 'preferred_choices' => ['États-Unis', 'Chine', 'Royaume-Uni'],
                 'empty_data' => '',
+                'autocomplete' => true,
             ])
             ->add('birthday', DateType::class, [
                 'label' => 'Date de naissance',
