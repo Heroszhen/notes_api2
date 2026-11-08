@@ -19,6 +19,12 @@
           <ul class="dropdown-menu">
             <li>
               <a 
+                class="dropdown-item {% if app.request.attributes.get('_route') == 'app_admin_categories' %}active{% endif %}" href="{{ path('app_admin_categories') }}">
+                Catégories
+              </a>
+            </li>
+            <li>
+              <a 
                 class="dropdown-item {% if app.request.attributes.get('_route') == 'app_admin_actresses' %}active{% endif %}" href="{{ path('app_admin_actresses') }}">
                 Actrices
               </a>

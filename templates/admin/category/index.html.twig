@@ -1,0 +1,52 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+<section class="admin p-3" id="category">
+    <h1 class="mb-4">
+        Catégories
+        <a href="{{ path('app_admin_categories') }}" class="pointer" title="Ajouter une catégorie">+</a>
+    </h1>
+
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-md-6 col-lg-4 mb-5">
+                <section class="p-3 border border-dark rounded">
+                    <h4 class="mb-4">
+                        {% if category.createdAt is null %}
+                        Ajouter une catégorie
+                        {% else %}
+                        Modifier la catégorie: {{ category.name }}
+                        {% endif %}
+                    </h4>
+
+                    {% include 'common/_flash_message.html.twig' %}
+
+                    {{ form_start(form) }}
+                    <div>
+                    {{ form_label(form.name) }}
+                    {{ form_widget(form.name) }}
+                    {% for error in form.name.vars.errors %}
+                        <div class="alert alert-danger mt-2">{{ error.message }}</div>
+                    {% endfor %}
+                    <div>
+                    <div class="mt-3">
+                        <button type="submit" class="btn btn-primary btn-sm mt-3">Envoyer</button>
+                    </div>
+                    {{ form_end(form) }}
+                </section>
+            </div>
+            <div class="col-md-6  col-lg-8">
+                <div class="row">
+                    {% for cg in categories %}
+                        <div class="col-md-6 mb-3">
+                            <div class="p-1 border border-dark rounded">
+                                <div class="text-center">{{ cg.name }}</div>
+                            </div>
+                        </div>
+                    {% endfor %}
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+{% endblock %}

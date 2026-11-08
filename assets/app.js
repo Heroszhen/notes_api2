@@ -29,7 +29,7 @@ $(function () {
 
 setInterval(() => {
     $("#flash-messages .alert").remove();
-}, 5000);
+}, 3000);
 
 $(".photo-input").on("change", async function (e) {
     const file = $(this).prop("files")[0];

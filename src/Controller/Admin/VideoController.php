@@ -40,7 +40,7 @@ final class VideoController extends AbstractMainController
     ) {
     }
 
-    #[Route('', name: 'app_admin_videos')]
+    #[Route('', name: 'app_admin_videos', methods: ['GET', 'POST'])]
     public function index(Request $request): Response
     {
         $openedForm = false;
@@ -177,7 +177,7 @@ final class VideoController extends AbstractMainController
             return $this->json(null, Response::HTTP_FORBIDDEN);
         }
 
-        if (!$this->isCsrfTokenValid('delete'.$id, $request->query->getString('_token'))) {
+        if (!$this->isCsrfTokenValid('delete' . $id, $request->query->getString('_token'))) {
             return $this->json(null, Response::HTTP_FORBIDDEN);
         }
 
@@ -199,7 +199,7 @@ final class VideoController extends AbstractMainController
     #[Route('/delete/{id}/next', name: 'app_admin_delete_video_to_next', requirements: ['id' => Requirement::UUID], methods: ['GET'])]
     public function deleteVideoAndToNext(Request $request, string $id): Response
     {
-        if (!$this->isCsrfTokenValid('delete'.$id, $request->query->getString('_token'))) {
+        if (!$this->isCsrfTokenValid('delete' . $id, $request->query->getString('_token'))) {
             return $this->getRedirectionUrl($request, 'app_admin_videos');
         }
 

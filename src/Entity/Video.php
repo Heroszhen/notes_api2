@@ -6,6 +6,8 @@ namespace App\Entity;
 
 use App\Enum\VideoTypeEnum;
 use App\Repository\VideoRepository;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
@@ -42,6 +44,17 @@ class Video extends AbstractEntity
     #[Assert\NotBlank]
     #[Assert\Url(protocols: ['https'], requireTld: true)]
     private ?string $website = null;
+
+    /**
+     * @var Collection<int, Category>
+     */
+    #[ORM\ManyToMany(targetEntity: Category::class)]
+    private Collection $categories;
+
+    public function __construct()
+    {
+        $this->categories = new ArrayCollection();
+    }
 
     public function getTitle(): ?string
     {
@@ -147,5 +160,29 @@ class Video extends AbstractEntity
                 ->atPath('videoUrl')
                 ->addViolation();
         }
+    }
+
+    /**
+     * @return Collection<int, Category>
+     */
+    public function getCategories(): Collection
+    {
+        return $this->categories;
+    }
+
+    public function addCategory(Category $category): static
+    {
+        if (!$this->categories->contains($category)) {
+            $this->categories->add($category);
+        }
+
+        return $this;
+    }
+
+    public function removeCategory(Category $category): static
+    {
+        $this->categories->removeElement($category);
+
+        return $this;
     }
 }
