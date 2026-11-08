@@ -9,7 +9,7 @@
 
     <div class="container-fluid">
         <div class="row">
-            <div class="col-md-6 col-lg-4 mb-5">
+            <div class="col-md-12 mb-5">
                 <section class="p-3 border border-dark rounded">
                     <h4 class="mb-4">
                         {% if category.createdAt is null %}
@@ -35,12 +35,20 @@
                     {{ form_end(form) }}
                 </section>
             </div>
-            <div class="col-md-6  col-lg-8">
+            <div class="col-12">
                 <div class="row">
                     {% for cg in categories %}
-                        <div class="col-md-6 mb-3">
-                            <div class="p-1 border border-dark rounded">
+                        <div class="col-12 col-md-4 col-lg-3 mb-3 category">
+                            <div class="p-1 ps-2 pe-2 border border-dark rounded">
                                 <div class="text-center">{{ cg.name }}</div>
+                                <div class="d-flex justify-content-between">
+                                    <a class="pointer" title="Modifier" href="{{ path('app_admin_categories', {id: cg.id}) }}">
+                                        <i class="bi bi-pencil-fill"></i>
+                                    </a>
+                                    <a class="pointer text-danger delete-category" title="Supprimer" href="{{ path('app_admin_delete_category', {id: cg.id, _token: csrf_token('delete' ~ cg.id)}) }}" >
+                                        <i class="bi bi-trash"></i>
+                                    </a>
+                                </div>
                             </div>
                         </div>
                     {% endfor %}
@@ -49,4 +57,7 @@
         </div>
     </div>
 </section>
+{% endblock %}
+{% block importmap %}
+    {{ importmap(['app', 'category']) }}
 {% endblock %}

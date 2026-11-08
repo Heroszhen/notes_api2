@@ -42,6 +42,10 @@ return [
         'path' => './assets/pages/video_player.js',
         'entrypoint' => true,
     ],
+    'category' => [
+        'path' => './assets/pages/admin/category.js',
+        'entrypoint' => true,
+    ],
     '@hotwired/stimulus' => [
         'version' => '3.2.2',
     ],

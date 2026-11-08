@@ -34,7 +34,7 @@ final class CategoryController extends AbstractMainController
             $category = $this->categoryRepository->find($id);
 
             if (!$category instanceof Category) {
-                return $this->redirectToRoute('app_admin_actresses');
+                return $this->redirectToRoute('app_admin_categories');
             }
         }
 
@@ -59,5 +59,27 @@ final class CategoryController extends AbstractMainController
             'category' => $category,
             'categories' => $categories,
         ]);
+    }
+
+    #[Route('/delete/{id}', name: 'app_admin_delete_category', requirements: ['id' => Requirement::UUID], methods: ['DELETE'])]
+    public function deleteCategory(Request $request, string $id): Response
+    {
+        if (!$request->isXmlHttpRequest()) {
+            return $this->json(null, Response::HTTP_FORBIDDEN);
+        }
+
+        if (!$this->isCsrfTokenValid('delete'.$id, $request->query->getString('_token'))) {
+            return $this->json(null, Response::HTTP_FORBIDDEN);
+        }
+
+        $category = $this->categoryRepository->find($id);
+        if (!$category instanceof Category) {
+            return $this->json(null, Response::HTTP_NOT_FOUND);
+        }
+
+        $this->entityManager->remove($category);
+        $this->entityManager->flush();
+
+        return $this->json(null, Response::HTTP_NO_CONTENT);
     }
 }
