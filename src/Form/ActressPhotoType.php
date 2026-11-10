@@ -14,6 +14,9 @@ use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
 use Symfony\Component\Form\Extension\Core\Type\FileType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
+use Symfony\Component\Validator\Constraints\All;
+use Symfony\Component\Validator\Constraints\Count;
+use Symfony\Component\Validator\Constraints\Image;
 
 class ActressPhotoType extends AbstractType
 {
@@ -43,6 +46,12 @@ class ActressPhotoType extends AbstractType
                 'attr' => ['accept' => 'image/*', 'class' => 'form-control'],
                 'label_attr' => ['class' => 'form-label'],
                 'multiple' => true,
+                'constraints' => [
+                    new Count(max: 6),
+                    new All([
+                        new Image(maxSize: '10M'),
+                    ]),
+                ],
             ]);
     }
 

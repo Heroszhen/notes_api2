@@ -14,4 +14,6 @@ enum VideoTypeEnum: string
     case INSTAGRAM = 'instagram';
     case YOUTUBE_SHORT = 'youtube_short';
     case DAILYMOTION = 'dailymotion';
+    case REDDIT = 'reddit';
+    case TWITTER = 'twitter';
 }
