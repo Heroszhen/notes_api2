@@ -3,7 +3,7 @@
 
 php bin/console c:w
 
-rm -rf vendor assets/vendor
+rm -rf var vendor assets/vendor
 composer install --no-dev --optimize-autoloader
 
 php bin/console importmap:install
