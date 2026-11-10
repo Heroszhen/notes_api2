@@ -75,6 +75,17 @@
                 <td>{{ video.actress.name }}</td>
                 <td>{{ video.videoType.value }}</td>
                 <td>
+                    <div class="form-check">
+                        <input 
+                            class="form-check-input activate-video" 
+                            type="checkbox" 
+                            value="" 
+                            id="video_visible_{{ video.id }}" 
+                            {% if video.visible is same as(true) %}checked{% endif %}
+                            data-url="{{ path('app_admin_activate_video', {id: video.id, _token: csrf_token('patch' ~ video.id)}) }}"
+                        >
+                        <label class="form-check-label" for="video_visible_{{ video.id }}"></label>
+                    </div>
                 </td>
                 <td>{{ video.createdAt|date('d/m/Y') }}</td>
                 <td>

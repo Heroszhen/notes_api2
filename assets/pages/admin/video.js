@@ -64,3 +64,28 @@ $("#video_videoType").on("change", function () {
 $("#video_videoFile").on("change", function () {
     setUrlAndType("url", "mp4", 700, $(this).prop("files")[0]);
 });
+
+$(".activate-video").on("change", async function () {
+    try {
+        const response = await fetch($(this).data("url"), {
+            method: "PATCH",
+            headers: {
+                "X-Requested-With": "XMLHttpRequest",
+                "Content-Type": "application/json",
+            },
+            body: JSON.stringify({ visible: $(this).prop("checked") }),
+        });
+
+        let message, type;
+        if (response.ok) {
+            message = "Enregistrée";
+            type = "success";
+        } else {
+            message = "Erreur";
+            type = "danger";
+        }
+        alertMessage(message, type);
+    } catch {
+        alertMessage("Erreur", "danger");
+    }
+});
