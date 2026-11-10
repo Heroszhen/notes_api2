@@ -47,16 +47,17 @@ final class GoogleAuthenticator extends OAuth2Authenticator
                 /** @var GoogleUser $googleUser */
                 $googleUser = $client->fetchUserFromToken($accessToken);
 
-                // 1. déjà connecté avec Google
+                if (true !== ($googleUser->toArray()['email_verified'] ?? false)) {
+                    throw new CustomUserMessageAuthenticationException('Erreur');
+                }
+
                 $user = $this->userRepository->findOneBy(['googleId' => $googleUser->getId()]);
                 if ($user instanceof User) {
                     return $user;
                 }
 
-                // 2. compte existant avec le même e-mail
                 $user = $this->userRepository->findOneBy(['email' => $googleUser->getEmail()]);
 
-                // 3. sinon, nouveau compte
                 if (!$user instanceof User) {
                     throw new CustomUserMessageAuthenticationException('Erreur');
                 }
