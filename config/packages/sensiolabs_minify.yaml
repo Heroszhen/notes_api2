@@ -1,0 +1,3 @@
+sensiolabs_minify:
+    minify:
+        download_binary: true

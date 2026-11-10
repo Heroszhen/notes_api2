@@ -86,6 +86,9 @@
     "ramsey/uuid-doctrine": {
         "version": "2.1.0"
     },
+    "sensiolabs/minify-bundle": {
+        "version": "v1.3.1"
+    },
     "stof/doctrine-extensions-bundle": {
         "version": "v1.15.3"
     },
