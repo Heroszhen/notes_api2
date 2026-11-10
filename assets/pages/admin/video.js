@@ -12,9 +12,9 @@ $(function () {
     );
 });
 
-$("#video_videoFile").on("change", function () {
-    $("#video_videoUrl").val(this.files[0]?.name ?? "");
-});
+// $("#video_videoFile").on("change", function () {
+//     $("#video_videoUrl").val(this.files[0]?.name ?? "");
+// });
 
 $(".delete-video").on("click", async function (e) {
     e.preventDefault();

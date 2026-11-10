@@ -4,7 +4,7 @@
 php bin/console c:w
 
 rm -rf vendor assets/vendor
-composer install
+composer install --no-dev --optimize-autoloader
 
 php bin/console importmap:install
 php bin/console sass:build
