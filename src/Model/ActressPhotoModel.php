@@ -18,7 +18,7 @@ final class ActressPhotoModel
     /**
      * @var UploadedFile[]
      */
-    #[Assert\Count(min: 1)]
+    #[Assert\Count(min: 1, max: 6)]
     #[Assert\All([
         new Assert\Image(maxSize: '10M'),
     ])]

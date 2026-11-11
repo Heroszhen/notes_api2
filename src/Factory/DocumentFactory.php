@@ -36,8 +36,8 @@ final class DocumentFactory extends PersistentObjectFactory
     protected function defaults(): array|callable
     {
         return [
-            'content' => self::faker()->text(),
-            'title' => self::faker()->text(20),
+            'content' => self::faker()->paragraph(300),
+            'title' => self::faker()->text(40),
         ];
     }
 

@@ -22,10 +22,10 @@ class AppFixtures extends Fixture
         ]);
         UserFactory::createMany(5);
 
-        DocumentFactory::createMany(5);
+        DocumentFactory::createMany(300);
         CategoryFactory::createMany(30);
         ActressFactory::createMany(5);
-        VideoFactory::createMany(500, fn () => [
+        VideoFactory::createMany(50, fn () => [
             'actress' => ActressFactory::random(),
         ]);
     }
