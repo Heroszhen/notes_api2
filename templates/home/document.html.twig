@@ -6,7 +6,7 @@
         <div class="row justify-content-center">
             <div class="col-md-10 col-lg-7 mb-3">
                 <h1 class="mb-5">{{ doc.title }}</h1>
-                <section>{{ doc.content|raw }}</section>
+                <section class="word-wrap">{{ doc.content|raw }}</section>
                 <small class="text-secondary">{{ doc.createdAt|date('d/m/Y H:i:s') }}</small>
             </div>
         </div>

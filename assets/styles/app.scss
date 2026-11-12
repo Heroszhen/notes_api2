@@ -1,8 +1,8 @@
 // add your SASS styles in this file
 @import 'functions';
 @import 'pages/login';
-@import 'pages/doc_edit';
-@import 'pages/actress_photo';
+@import 'pages/admin/doc';
+@import 'pages/admin/actress_photo';
 
 img {
     width: 100%;
@@ -19,6 +19,12 @@ a, a:hover {
 
 .pointer {
     cursor: pointer;
+}
+
+.word-wrap {
+    width: 100%;
+    clear: both;
+    word-wrap: break-word;
 }
 
 @media (max-width: 767px) {
@@ -118,4 +124,14 @@ a, a:hover {
 .pagination .page-item:first-child,
 .pagination .page-item:last-child {
   display: none;
+}
+
+#main-nav {
+    button.navbar-toggler {
+        padding: 0px 4px 4px 4px;
+        .navbar-toggler-icon {
+            width: 0.8em;
+            height: 0.8em;
+        }
+    }
 }
