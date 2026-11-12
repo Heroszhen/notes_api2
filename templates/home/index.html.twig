@@ -17,7 +17,7 @@
                 <article class="mb-4 border-bottom pb-4 word-wrap">
                     <a href="{{ path('app_document', {id: doc.id}) }}" class="text-dark">
                         <h2>{{ doc.title }}</h2>
-                        <div>{{ doc.content|striptags|slice(0, 100) }}...</div>
+                        <div>{{ doc.content|raw|striptags|slice(0, 100) }}...</div>
                         <small class="text-secondary">{{ doc.createdAt|date('d/m/Y') }}</small>
                     </a>
                 </article>
