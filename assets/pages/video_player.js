@@ -1,13 +1,15 @@
 import $ from "jquery";
 
+export const defaultVideoHeight = 700;
+
 /**
  *
  * @param {string} videoUrl
  * @param {string} videoType
  * @param {number} height [height = 700]
- * @param {File|null} file
+ * @param {File|undefined} file
  */
-function loadIframe(videoUrl, videoType, height = 700, file = undefined) {
+function loadIframe(videoUrl, videoType, height = defaultVideoHeight, file) {
     const iframe = $("#video-player iframe#player")[0];
     if (!iframe) {
         return;
@@ -23,6 +25,7 @@ function loadIframe(videoUrl, videoType, height = 700, file = undefined) {
                 url: videoUrl,
                 type: videoType,
                 height: height,
+                maxWidth: $("#wrap-iframe").width(),
                 file: file,
             },
         },
@@ -48,11 +51,13 @@ function resizeIframe(event) {
  *
  * @param {string|undefined} videoUrl
  * @param {string|undefined} videoType
+ * @param {number} height
+ * @returns
  */
 export const setUrlAndTypeAfterLoadedIframe = (
     videoUrl,
     videoType,
-    height = 700
+    height = defaultVideoHeight
 ) => {
     if (videoType && videoUrl) {
         if (videoType === "extern") return;
@@ -73,8 +78,8 @@ export const setUrlAndTypeAfterLoadedIframe = (
 export const setUrlAndType = (
     videoUrl,
     videoType,
-    height = 700,
-    file = undefined
+    height = defaultVideoHeight,
+    file
 ) => {
     if (videoType && videoUrl) {
         if (videoType === "extern") return;

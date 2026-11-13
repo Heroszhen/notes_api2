@@ -62,7 +62,12 @@
                 {% endfor %}
             </div>
             <div class="col-lg-6 mb-3">
-                {{ form_label(form.videoFile) }}
+                <div>
+                    {{ form_label(form.videoFile) }} 
+                    <a title="Recharger le lecteur" class="ms-2 pointer" id="reload-video-player">
+                        <i class="bi bi-arrow-clockwise"></i>
+                    </a>
+                </div>
                 {{ form_widget(form.videoFile) }}
                 {% for error in form.videoFile.vars.errors %}
                     <div class="alert alert-danger mt-2">{{ error.message }}</div>

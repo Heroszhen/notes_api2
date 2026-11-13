@@ -3,12 +3,14 @@ import { alertMessage } from "../../util.js";
 import {
     setUrlAndTypeAfterLoadedIframe,
     setUrlAndType,
+    defaultVideoHeight,
 } from "../video_player.js";
 
 $(function () {
     setUrlAndTypeAfterLoadedIframe(
         $("#video_videoUrl").val(),
-        $("#video_videoType").val()
+        $("#video_videoType").val(),
+        defaultVideoHeight
     );
 });
 
@@ -55,14 +57,22 @@ $("#delete-video-to-next").on("click", function (e) {
 });
 
 $("#video_videoUrl").on("change", function () {
-    setUrlAndType($("#video_videoUrl").val(), $("#video_videoType").val());
+    setUrlAndType(
+        $("#video_videoUrl").val(),
+        $("#video_videoType").val(),
+        defaultVideoHeight
+    );
 });
 $("#video_videoType").on("change", function () {
-    setUrlAndType($("#video_videoUrl").val(), $("#video_videoType").val());
+    setUrlAndType(
+        $("#video_videoUrl").val(),
+        $("#video_videoType").val(),
+        defaultVideoHeight
+    );
 });
 
 $("#video_videoFile").on("change", function () {
-    setUrlAndType("url", "mp4", 700, $(this).prop("files")[0]);
+    setUrlAndType("url", "mp4", defaultVideoHeight, $(this).prop("files")[0]);
 });
 
 $(".activate-video").on("change", async function () {
@@ -88,4 +98,15 @@ $(".activate-video").on("change", async function () {
     } catch {
         alertMessage("Erreur", "danger");
     }
+});
+
+$("#reload-video-player").on("click", () => {
+    const file = $("#video_videoFile").prop("files")?.[0];
+
+    setUrlAndType(
+        file ? "url" : $("#video_videoUrl").val(),
+        file ? "mp4" : $("#video_videoType").val(),
+        defaultVideoHeight,
+        file
+    );
 });
