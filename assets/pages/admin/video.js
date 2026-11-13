@@ -100,7 +100,7 @@ $(".activate-video").on("change", async function () {
     }
 });
 
-$("#reload-video-player").on("click", () => {
+$(".form-reload-video-player").on("click", () => {
     const file = $("#video_videoFile").prop("files")?.[0];
 
     setUrlAndType(

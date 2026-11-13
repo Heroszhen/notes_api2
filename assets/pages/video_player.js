@@ -18,16 +18,19 @@ function loadIframe(videoUrl, videoType, height = defaultVideoHeight, file) {
     $("#video-player iframe#player").parent().removeClass("d-none");
     $("#video-player iframe#player").css("height", height);
 
+    const payload = {
+        url: videoUrl,
+        type: videoType,
+        height: height,
+        maxWidth: $("#wrap-iframe").width(),
+        file: file,
+    };
+    window.videoPayload = payload;
+
     iframe.contentWindow.postMessage(
         {
             type: "READY",
-            payload: {
-                url: videoUrl,
-                type: videoType,
-                height: height,
-                maxWidth: $("#wrap-iframe").width(),
-                file: file,
-            },
+            payload: payload,
         },
         $("#video-player #front-service-url").val()
     );
@@ -88,3 +91,40 @@ export const setUrlAndType = (
         setTimeout(() => loadIframe(videoUrl, videoType, height, file));
     }
 };
+
+$(".toggle-video-player-fullscreen").on("click", function () {
+    if (!window.videoPayload) {
+        return;
+    }
+
+    $("#video-player").toggleClass("fullscreen");
+
+    if ($("#video-player").hasClass("fullscreen")) {
+        $("#video-player .wrap-btns").removeClass("d-none");
+    } else {
+        $("#video-player .wrap-btns").addClass("d-none");
+    }
+
+    setUrlAndType(
+        window.videoPayload.url,
+        window.videoPayload.type,
+        $("#video-player").hasClass("fullscreen")
+            ? $(window).height() - 45
+            : defaultVideoHeight,
+        window.videoPayload.file
+    );
+});
+
+$("#video-player .reload-video-player").on("click", () => {
+    if (!window.videoPayload) {
+        return;
+    }
+    const file = window.videoPayload.file;
+
+    setUrlAndType(
+        window.videoPayload.url,
+        window.videoPayload.type,
+        $(window).height() - 45,
+        file
+    );
+});

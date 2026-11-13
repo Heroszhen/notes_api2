@@ -64,8 +64,11 @@
             <div class="col-lg-6 mb-3">
                 <div>
                     {{ form_label(form.videoFile) }} 
-                    <a title="Recharger le lecteur" class="ms-2 pointer" id="reload-video-player">
+                    <a title="Recharger le lecteur" class="ms-2 pointer form-reload-video-player">
                         <i class="bi bi-arrow-clockwise"></i>
+                    </a>
+                    <a title="Agrandir le lecteur" class="ms-2 pointer toggle-video-player-fullscreen">
+                        <i class="bi bi-arrows-fullscreen"></i>
                     </a>
                 </div>
                 {{ form_widget(form.videoFile) }}
