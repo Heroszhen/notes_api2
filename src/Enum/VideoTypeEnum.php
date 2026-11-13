@@ -16,4 +16,5 @@ enum VideoTypeEnum: string
     case DAILYMOTION = 'dailymotion';
     case REDDIT = 'reddit';
     case TWITTER = 'twitter';
+    case FACEBOOK = 'facebook';
 }
