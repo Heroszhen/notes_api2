@@ -33,8 +33,11 @@
                     {{ form_label(form.videoType) }}
                     {{ form_widget(form.videoType) }}
                 </div>
-                <div class="col-12">
+                <div class="col-6">
                     <button type="submit" class="btn btn-primary">Envoyer</button>
+                </div>
+                <div class="col-6 text-end">
+                    <a class="btn btn-outline-secondary" href="{{ path('app_admin_videos') }}">Reset</a>
                 </div>
             </div>
         </div>

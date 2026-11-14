@@ -75,6 +75,7 @@ final class ActressController extends AbstractMainController
         $isCreated = true;
         if (null === $id) {
             $actress = new Actress();
+            $actress->setBirthday(new \DateTimeImmutable());
         } else {
             $actress = $this->actressRepository->find($id);
 

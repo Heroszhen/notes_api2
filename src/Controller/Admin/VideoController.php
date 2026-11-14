@@ -84,6 +84,7 @@ final class VideoController extends AbstractMainController
         $isCreated = true;
         if (null === $id) {
             $video = new Video();
+            $video->setWebsite('https://www.google.com');
         } else {
             $video = $this->videoRepository->find($id);
 

@@ -25,9 +25,12 @@
                         {{ form_label(form.country) }}
                         {{ form_widget(form.country) }}
                     </div>
-                    <div class="col-12">
+                    <div class="col-6">
                         <button type="submit" class="btn btn-primary">Envoyer</button>
                     </div>
+                    <div class="col-6 text-end">
+                    <a class="btn btn-outline-secondary" href="{{ path('app_admin_actresses') }}">Reset</a>
+                </div>
                 </div>
             </div>
         {{ form_end(form) }}
