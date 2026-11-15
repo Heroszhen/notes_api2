@@ -1,0 +1,12 @@
+video_type:
+    extern: Lien externe
+    integration: Intégration
+    mp4: Fichier MP4
+    douyin: Douyin
+    tiktok: TikTok
+    instagram: Instagram
+    youtube_short: YouTube Short
+    dailymotion: Dailymotion
+    reddit: Reddit
+    twitter: X (Twitter)
+    facebook: Facebook

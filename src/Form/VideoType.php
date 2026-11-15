@@ -22,9 +22,14 @@ use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Validator\Constraints\File;
 use Symfony\Component\Validator\Constraints\Image;
+use Symfony\Contracts\Translation\TranslatorInterface;
 
 class VideoType extends AbstractType
 {
+    public function __construct(private readonly TranslatorInterface $translator)
+    {
+    }
+
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder
@@ -74,7 +79,8 @@ class VideoType extends AbstractType
                 'attr' => ['class' => 'form-select'],
                 'class' => VideoTypeEnum::class,
                 'label_attr' => ['class' => 'form-label'],
-                'choice_label' => fn (VideoTypeEnum $type): string => $type->value,
+                'choice_label' => fn (VideoTypeEnum $type): string => $this->translator->trans('video_type.'.$type->value, [], 'video'),
+                'choice_translation_domain' => false,
             ])
             ->add('actress', EntityType::class, [
                 'label' => 'Actrice *',

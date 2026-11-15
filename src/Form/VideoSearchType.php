@@ -14,9 +14,14 @@ use Symfony\Component\Form\Extension\Core\Type\EnumType;
 use Symfony\Component\Form\Extension\Core\Type\SearchType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
+use Symfony\Contracts\Translation\TranslatorInterface;
 
 class VideoSearchType extends SearchBarType
 {
+    public function __construct(private readonly TranslatorInterface $translator)
+    {
+    }
+
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         parent::buildForm($builder, $options);
@@ -40,7 +45,8 @@ class VideoSearchType extends SearchBarType
                 'attr' => ['class' => 'form-select'],
                 'class' => VideoTypeEnum::class,
                 'label_attr' => ['class' => 'form-label'],
-                'choice_label' => fn (VideoTypeEnum $type): string => $type->value,
+                'choice_label' => fn (VideoTypeEnum $type): string => $this->translator->trans('video_type.'.$type->value, [], 'video'),
+                'choice_translation_domain' => false,
                 'placeholder' => 'Choisissez un type',
                 'required' => false,
             ])
