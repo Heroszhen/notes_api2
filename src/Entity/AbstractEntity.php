@@ -7,6 +7,7 @@ namespace App\Entity;
 use App\Traits\TimestampableTrait;
 use Doctrine\ORM\Mapping as ORM;
 use Ramsey\Uuid\Doctrine\UuidGenerator;
+use Symfony\Component\Serializer\Attribute\Groups;
 use Symfony\Component\Validator\Constraints as Assert;
 
 #[ORM\MappedSuperclass]
@@ -19,6 +20,7 @@ abstract class AbstractEntity
     #[ORM\GeneratedValue(strategy: 'CUSTOM')]
     #[ORM\CustomIdGenerator(class: UuidGenerator::class)]
     #[Assert\Uuid]
+    #[Groups(['default'])]
     private string $id;
 
     public function getId(): string
