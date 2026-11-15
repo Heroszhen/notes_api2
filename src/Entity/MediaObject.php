@@ -6,11 +6,13 @@ namespace App\Entity;
 
 use App\Repository\MediaObjectRepository;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Serializer\Attribute\Groups;
 
 #[ORM\Entity(repositoryClass: MediaObjectRepository::class)]
 class MediaObject extends AbstractEntity
 {
     #[ORM\Column(length: 255)]
+    #[Groups(['video:o'])]
     private ?string $name = null;
 
     #[ORM\Column(length: 255)]

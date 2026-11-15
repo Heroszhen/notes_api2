@@ -4,33 +4,53 @@ declare(strict_types=1);
 
 namespace App\Entity;
 
+use ApiPlatform\Metadata\ApiResource;
+use ApiPlatform\Metadata\GetCollection;
 use App\Enum\VideoTypeEnum;
 use App\Repository\VideoRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Serializer\Attribute\Groups;
 use Symfony\Component\Validator\Constraints as Assert;
 use Symfony\Component\Validator\Context\ExecutionContextInterface;
 
+#[ApiResource()]
+#[GetCollection(
+    uriTemplate: '/videos',
+    name: 'videos_public',
+    normalizationContext: ['groups' => ['default', 'video:o']],
+)]
+#[GetCollection(
+    uriTemplate: '/admin/videos',
+    name: 'videos_admin',
+    security: "is_granted('ROLE_ADMIN')",
+    normalizationContext: ['groups' => ['default', 'video:o']],
+)]
 #[ORM\Entity(repositoryClass: VideoRepository::class)]
 class Video extends AbstractEntity
 {
     #[ORM\Column(length: 255)]
     #[Assert\NotBlank]
+    #[Groups(['video:o'])]
     private ?string $title = null;
 
     #[ORM\ManyToOne(inversedBy: 'videos')]
     #[Assert\NotBlank]
+    #[Groups(['video:o'])]
     private ?Actress $actress = null;
 
     #[ORM\Column(type: Types::TEXT, nullable: true)]
+    #[Groups(['video:o'])]
     private ?string $description = null;
 
     #[ORM\OneToOne(cascade: ['persist', 'remove'])]
+    #[Groups(['video:o'])]
     private ?MediaObject $photo = null;
 
     #[ORM\Column(type: Types::TEXT)]
+    #[Groups(['video:o'])]
     private ?string $videoUrl = null;
 
     #[ORM\Column]
@@ -38,11 +58,13 @@ class Video extends AbstractEntity
 
     #[ORM\Column(enumType: VideoTypeEnum::class)]
     #[Assert\NotBlank]
+    #[Groups(['video:o'])]
     private VideoTypeEnum $videoType = VideoTypeEnum::EXTERN;
 
     #[ORM\Column(type: Types::TEXT)]
     #[Assert\NotBlank]
     #[Assert\Url(protocols: ['https'], requireTld: true)]
+    #[Groups(['video:o'])]
     private ?string $website = null;
 
     /**
