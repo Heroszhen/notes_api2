@@ -33,6 +33,7 @@ class Actress extends AbstractEntity
     private ?string $description = null;
 
     #[ORM\ManyToOne]
+    #[Groups(['video:o'])]
     private ?MediaObject $photo = null;
 
     /**

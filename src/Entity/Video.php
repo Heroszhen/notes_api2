@@ -4,8 +4,11 @@ declare(strict_types=1);
 
 namespace App\Entity;
 
+use ApiPlatform\Doctrine\Orm\Filter\ExactFilter;
+use ApiPlatform\Doctrine\Orm\Filter\PartialSearchFilter;
 use ApiPlatform\Metadata\ApiResource;
 use ApiPlatform\Metadata\GetCollection;
+use ApiPlatform\Metadata\QueryParameter;
 use App\Enum\VideoTypeEnum;
 use App\Repository\VideoRepository;
 use Doctrine\Common\Collections\ArrayCollection;
@@ -16,7 +19,20 @@ use Symfony\Component\Serializer\Attribute\Groups;
 use Symfony\Component\Validator\Constraints as Assert;
 use Symfony\Component\Validator\Context\ExecutionContextInterface;
 
-#[ApiResource()]
+/**
+ * ?search[title]=macau
+ * ?category=Sport.
+ */
+#[ApiResource(
+    order: ['createdAt' => 'DESC'],
+    paginationItemsPerPage: 8,
+    parameters: [
+        'search[:property]' => new QueryParameter(
+            properties: ['title', 'actress.name', 'website'],
+            filter: new PartialSearchFilter(),
+        ),
+    ],
+)]
 #[GetCollection(
     uriTemplate: '/videos',
     name: 'videos_public',
@@ -27,6 +43,12 @@ use Symfony\Component\Validator\Context\ExecutionContextInterface;
     name: 'videos_admin',
     security: "is_granted('ROLE_ADMIN')",
     normalizationContext: ['groups' => ['default', 'video:o']],
+    parameters: [
+        'category' => new QueryParameter(
+            property: 'categories.name',
+            filter: new ExactFilter(),
+        ),
+    ],
 )]
 #[ORM\Entity(repositoryClass: VideoRepository::class)]
 class Video extends AbstractEntity
