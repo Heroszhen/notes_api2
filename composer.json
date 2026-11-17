@@ -13,6 +13,7 @@
         "doctrine/doctrine-migrations-bundle": "^4.0",
         "doctrine/orm": "^3.7",
         "gedmo/doctrine-extensions": "^3.22",
+        "google/apiclient": "^2.20",
         "knplabs/knp-paginator-bundle": "^6.11",
         "knpuniversity/oauth2-client-bundle": "^2.20",
         "league/oauth2-google": "^5.0",

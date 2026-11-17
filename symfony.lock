@@ -73,6 +73,9 @@
             "./.php-cs-fixer.dist.php"
         ]
     },
+    "google/apiclient": {
+        "version": "v2.20.1"
+    },
     "knplabs/knp-paginator-bundle": {
         "version": "v6.11.0"
     },
