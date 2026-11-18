@@ -4,6 +4,9 @@ declare(strict_types=1);
 
 namespace App\Entity;
 
+use ApiPlatform\Metadata\ApiResource;
+use ApiPlatform\Metadata\Get;
+use ApiPlatform\Metadata\GetCollection;
 use App\Repository\ActressRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
@@ -13,13 +16,24 @@ use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Symfony\Component\Serializer\Attribute\Groups;
 use Symfony\Component\Validator\Constraints as Assert;
 
+#[ApiResource(
+    security: "is_granted('ROLE_USER')",
+)]
+#[GetCollection(
+    uriTemplate: '/actresses/name',
+    name: 'actresses_name',
+    paginationEnabled: false,
+    normalizationContext: ['groups' => ['default', 'actress:name']],
+    order: ['name' => 'ASC']
+)]
+#[Get]
 #[ORM\Entity(repositoryClass: ActressRepository::class)]
 #[UniqueEntity('name')]
 class Actress extends AbstractEntity
 {
     #[ORM\Column(length: 255, unique: true)]
     #[Assert\NotBlank]
-    #[Groups(['video:o'])]
+    #[Groups(['video:o', 'actress:name'])]
     private ?string $name = null;
 
     #[ORM\Column(length: 50)]

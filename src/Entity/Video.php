@@ -6,6 +6,7 @@ namespace App\Entity;
 
 use ApiPlatform\Doctrine\Orm\Filter\ExactFilter;
 use ApiPlatform\Doctrine\Orm\Filter\PartialSearchFilter;
+use ApiPlatform\Doctrine\Orm\Filter\SortFilter;
 use ApiPlatform\Metadata\ApiResource;
 use ApiPlatform\Metadata\GetCollection;
 use ApiPlatform\Metadata\QueryParameter;
@@ -32,6 +33,10 @@ use Symfony\Component\Validator\Context\ExecutionContextInterface;
             properties: ['title', 'actress.name', 'website'],
             filter: new PartialSearchFilter(),
         ),
+        'order[createdAt]' => new QueryParameter(
+            property: 'createdAt',
+            filter: new SortFilter(),
+        ),
     ],
 )]
 #[GetCollection(
@@ -46,7 +51,7 @@ use Symfony\Component\Validator\Context\ExecutionContextInterface;
     security: "is_granted('ROLE_ADMIN')",
     normalizationContext: ['groups' => ['default', 'video:o']],
     parameters: [
-        'category' => new QueryParameter(
+        'categories' => new QueryParameter(
             property: 'categories.name',
             filter: new ExactFilter(),
         ),

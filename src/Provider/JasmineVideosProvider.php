@@ -37,9 +37,17 @@ final class JasmineVideosProvider implements ProviderInterface
             throw new \RuntimeException('No videos');
         }
 
+        $filters = $context['filters'] ?? [];
+        $order = $filters['order'] ?? [];
+        $sort = strtolower($order['createdAt'] ?? 'desc');
+
         $videos = $result['hydra:member'];
         $total = count($videos);
-        usort($videos, fn (array $a, array $b): int => strcmp($b['updated'], $a['updated']));
+        if ('desc' === $sort) {
+            usort($videos, fn (array $a, array $b): int => strcmp($b['updated'], $a['updated']));
+        } else {
+            usort($videos, fn (array $a, array $b): int => strcmp($a['updated'], $b['updated']));
+        }
 
         $offset = ($page - 1) * self::VIDEO_LIMIT;
         $videos = array_slice($videos, $offset, self::VIDEO_LIMIT);

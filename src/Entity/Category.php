@@ -15,7 +15,10 @@ use Symfony\Component\Validator\Constraints as Assert;
 #[ApiResource(
     normalizationContext: ['groups' => ['default', 'category:o']],
 )]
-#[GetCollection(paginationEnabled: false)]
+#[GetCollection(
+    paginationEnabled: false,
+    order: ['name' => 'ASC']
+)]
 #[UniqueEntity('name')]
 #[ORM\Entity(repositoryClass: CategoryRepository::class)]
 class Category extends AbstractEntity
