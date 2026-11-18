@@ -14,7 +14,7 @@ readonly class UtilService
     ) {
     }
 
-    public function logHttpErrorMessage(\Exception $e, string $title = 's3'): void
+    public function logHttpErrorMessage(\Exception $e, string $title = 's3'): never
     {
         $this->logger->error("{$title}: {$e->getMessage()}");
         throw new BadRequestHttpException($e->getMessage());

@@ -10,6 +10,7 @@ use ApiPlatform\Doctrine\Orm\Filter\SortFilter;
 use ApiPlatform\Metadata\ApiResource;
 use ApiPlatform\Metadata\GetCollection;
 use ApiPlatform\Metadata\QueryParameter;
+use App\Dto\VideoOutput;
 use App\Enum\VideoTypeEnum;
 use App\Provider\JasmineVideosProvider;
 use App\Repository\VideoRepository;
@@ -22,8 +23,7 @@ use Symfony\Component\Validator\Constraints as Assert;
 use Symfony\Component\Validator\Context\ExecutionContextInterface;
 
 /**
- * ?search[title]=macau
- * ?category=Sport.
+ * ?search[title]=macau.
  */
 #[ApiResource(
     order: ['createdAt' => 'DESC'],
@@ -62,6 +62,7 @@ use Symfony\Component\Validator\Context\ExecutionContextInterface;
     name: 'videos_admin_jasmine',
     security: "is_granted('ROLE_ADMIN')",
     provider: JasmineVideosProvider::class,
+    output: VideoOutput::class,
     normalizationContext: ['groups' => ['default', 'video:o']],
 )]
 #[ORM\Entity(repositoryClass: VideoRepository::class)]
@@ -93,7 +94,6 @@ class Video extends AbstractEntity
     private bool $visible = true;
 
     #[ORM\Column(enumType: VideoTypeEnum::class)]
-    #[Assert\NotBlank]
     #[Groups(['video:o'])]
     private VideoTypeEnum $videoType = VideoTypeEnum::EXTERN;
 

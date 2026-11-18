@@ -14,6 +14,8 @@ use App\Enum\VideoTypeEnum;
 use App\Repository\ActressRepository;
 use App\Service\S3Service;
 use Symfony\Component\DependencyInjection\Attribute\Autowire;
+use Symfony\Contracts\Cache\CacheInterface;
+use Symfony\Contracts\Cache\ItemInterface;
 
 final class JasmineVideosProvider implements ProviderInterface
 {
@@ -23,6 +25,7 @@ final class JasmineVideosProvider implements ProviderInterface
         private readonly S3Service $s3Service,
         private readonly Pagination $pagination,
         private readonly ActressRepository $actressRepository,
+        private readonly CacheInterface $cache,
         #[Autowire('%env(S3_ROOT_JASMINE)%')] private readonly string $s3RootJasmine,
         #[Autowire('%env(ACTRESS_ID_JASMINE)%')] private readonly string $actressIdJasmine,
     ) {
@@ -32,16 +35,21 @@ final class JasmineVideosProvider implements ProviderInterface
     {
         $page = $this->pagination->getPage($context);
 
-        $result = $this->s3Service->getFolder('videos', $this->s3RootJasmine);
-        if (!isset($result['hydra:member'])) {
-            throw new \RuntimeException('No videos');
-        }
+        $videos = $this->cache->get('jasmine_videos', function (ItemInterface $item): array {
+            $item->expiresAfter(300);
+
+            $result = $this->s3Service->getFolder('videos', $this->s3RootJasmine);
+            if (!isset($result['hydra:member'])) {
+                throw new \RuntimeException('No videos');
+            }
+
+            return $result['hydra:member'];
+        });
 
         $filters = $context['filters'] ?? [];
         $order = $filters['order'] ?? [];
         $sort = strtolower($order['createdAt'] ?? 'desc');
 
-        $videos = $result['hydra:member'];
         $total = count($videos);
         if ('desc' === $sort) {
             usort($videos, fn (array $a, array $b): int => strcmp($b['updated'], $a['updated']));

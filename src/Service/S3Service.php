@@ -77,8 +77,6 @@ readonly class S3Service
         } catch (\Exception $e) {
             $this->utilService->logHttpErrorMessage($e);
         }
-
-        return false;
     }
 
     public function getFolder(string $path, string $root): array
@@ -92,7 +90,5 @@ readonly class S3Service
         } catch (\Exception $e) {
             $this->utilService->logHttpErrorMessage($e);
         }
-
-        return [];
     }
 }
