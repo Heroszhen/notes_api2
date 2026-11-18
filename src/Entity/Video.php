@@ -10,6 +10,7 @@ use ApiPlatform\Metadata\ApiResource;
 use ApiPlatform\Metadata\GetCollection;
 use ApiPlatform\Metadata\QueryParameter;
 use App\Enum\VideoTypeEnum;
+use App\Provider\JasmineVideosProvider;
 use App\Repository\VideoRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
@@ -36,6 +37,7 @@ use Symfony\Component\Validator\Context\ExecutionContextInterface;
 #[GetCollection(
     uriTemplate: '/videos',
     name: 'videos_public',
+    security: "is_granted('ROLE_USER')",
     normalizationContext: ['groups' => ['default', 'video:o']],
 )]
 #[GetCollection(
@@ -49,6 +51,13 @@ use Symfony\Component\Validator\Context\ExecutionContextInterface;
             filter: new ExactFilter(),
         ),
     ],
+)]
+#[GetCollection(
+    uriTemplate: '/admin/videos/jasmine',
+    name: 'videos_admin_jasmine',
+    security: "is_granted('ROLE_ADMIN')",
+    provider: JasmineVideosProvider::class,
+    normalizationContext: ['groups' => ['default', 'video:o']],
 )]
 #[ORM\Entity(repositoryClass: VideoRepository::class)]
 class Video extends AbstractEntity

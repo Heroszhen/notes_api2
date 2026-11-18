@@ -80,4 +80,19 @@ readonly class S3Service
 
         return false;
     }
+
+    public function getFolder(string $path, string $root): array
+    {
+        try {
+            $response = $this->s3Client->request('POST', '/api/s3files/list-folder', [
+                'json' => ['bucket' => $_ENV['S3_BUCKET'], 'path' => $root.'/'.$path],
+            ]);
+
+            return json_decode($response->getContent(), true, 512, JSON_THROW_ON_ERROR);
+        } catch (\Exception $e) {
+            $this->utilService->logHttpErrorMessage($e);
+        }
+
+        return [];
+    }
 }
