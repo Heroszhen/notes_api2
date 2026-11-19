@@ -67,10 +67,11 @@ final class JasmineVideosProvider implements ProviderInterface
 
         $tab = [];
         foreach ($videos as $video) {
+            $link = explode('?', $video['url']);
             $tab[] = new DtoVideoOutput(
                 id: $video['name'],
                 title: '',
-                videoUrl: $video['url'],
+                videoUrl: $link[0],
                 videoType: VideoTypeEnum::MP4,
                 website: 'https://www.google.com',
                 photo: $actress->getPhoto(),
