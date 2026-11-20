@@ -13,4 +13,5 @@ php bin/console cache:clear
 
 php bin/console doctrine:schema:update --force
 
-php bin/console lexik:jwt:generate-keypair --overwrite
+#php bin/console lexik:jwt:generate-keypair --overwrite
+php bin/console lexik:jwt:generate-keypair --skip-if-exists

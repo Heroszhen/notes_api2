@@ -4,11 +4,14 @@ import { alertMessage } from "../../util.js";
 $("#actress_photo_photos").on("change", function () {
     $("#wrap-photos").empty();
     Array.from($(this).prop("files")).forEach((file) => {
-        $("#wrap-photos").append(`
-            <div class='col-6 col-md-4 col-lg-3 mb-3'>
-                <img src=${URL.createObjectURL(file)} alt=''>
-            </div>
-        `);
+        const url = URL.createObjectURL(file);
+        const img = $("<img alt=''>")
+            .attr("src", url)
+            .on("load", () => URL.revokeObjectURL(url));
+
+        $("<div class='col-6 col-md-4 col-lg-3 mb-3'></div>")
+            .append(img)
+            .appendTo("#wrap-photos");
     });
 });
 
