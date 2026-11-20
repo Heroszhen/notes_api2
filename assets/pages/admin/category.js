@@ -10,7 +10,7 @@ $(".delete-category").on("click", async function (e) {
 
     const response = await fetch($(this).attr("href"), {
         method: "DELETE",
-        headers: { "X-Requested-With": "XMLHttpRequest" },
+        headers: { "X-Requested-With": "XMLHttpRequest" }
     });
 
     let message, type;

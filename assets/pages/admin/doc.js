@@ -8,7 +8,7 @@ $("a.delete-doc").on("click", function (e) {
     }
 });
 
-$("#document_search_keywords").on("input", function (e) {
+$("#document_search_keywords").on("input", (e) => {
     if (!(e.originalEvent instanceof InputEvent)) {
         $("form[name='document_search']").trigger("submit");
     }

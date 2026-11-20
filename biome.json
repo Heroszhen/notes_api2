@@ -1,0 +1,19 @@
+{
+    "formatter": {
+      "indentStyle": "space",
+      "indentWidth": 4,
+      "lineEnding": "crlf"
+    },
+    "javascript": {
+        "formatter": {
+          "quoteStyle": "double",
+          "trailingCommas": "none"
+        }
+      },
+      "linter": {
+        "enabled": true,
+        "rules": {
+          "recommended": true
+        }
+    }
+  }

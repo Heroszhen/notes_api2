@@ -15,10 +15,9 @@ import { readFile } from "./util.js";
 
 console.log("This log comes from assets/app.js - welcome to AssetMapper! 🎉");
 
-$(function () {
+$(() => {
     $(document).on("dblclick", "img", function () {
-        let src = $(this).attr("src");
-        $("#big-img img").attr("src", src);
+        $("#big-img img").attr("src", $(this).attr("src"));
         $("#big-img").removeClass("d-none");
     });
 

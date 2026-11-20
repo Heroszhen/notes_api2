@@ -1,12 +1,12 @@
 import $ from "jquery";
 import { alertMessage } from "../../util.js";
 import {
-    setUrlAndTypeAfterLoadedIframe,
-    setUrlAndType,
     defaultVideoHeight,
+    setUrlAndType,
+    setUrlAndTypeAfterLoadedIframe
 } from "../video_player.js";
 
-$(function () {
+$(() => {
     setUrlAndTypeAfterLoadedIframe(
         $("#video_videoUrl").val(),
         $("#video_videoType").val(),
@@ -28,7 +28,7 @@ $(".delete-video").on("click", async function (e) {
     try {
         const response = await fetch($(this).attr("href"), {
             method: "DELETE",
-            headers: { "X-Requested-With": "XMLHttpRequest" },
+            headers: { "X-Requested-With": "XMLHttpRequest" }
         });
 
         let message, type;
@@ -56,14 +56,14 @@ $("#delete-video-to-next").on("click", function (e) {
     location.replace($(this).prop("href"));
 });
 
-$("#video_videoUrl").on("change", function () {
+$("#video_videoUrl").on("change", () => {
     setUrlAndType(
         $("#video_videoUrl").val(),
         $("#video_videoType").val(),
         defaultVideoHeight
     );
 });
-$("#video_videoType").on("change", function () {
+$("#video_videoType").on("change", () => {
     setUrlAndType(
         $("#video_videoUrl").val(),
         $("#video_videoType").val(),
@@ -81,9 +81,9 @@ $(".activate-video").on("change", async function () {
             method: "PATCH",
             headers: {
                 "X-Requested-With": "XMLHttpRequest",
-                "Content-Type": "application/json",
+                "Content-Type": "application/json"
             },
-            body: JSON.stringify({ visible: $(this).prop("checked") }),
+            body: JSON.stringify({ visible: $(this).prop("checked") })
         });
 
         let message, type;

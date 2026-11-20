@@ -23,14 +23,14 @@ function loadIframe(videoUrl, videoType, height = defaultVideoHeight, file) {
         type: videoType,
         height: height,
         maxWidth: $("#wrap-iframe").width(),
-        file: file,
+        file: file
     };
     window.videoPayload = payload;
 
     iframe.contentWindow.postMessage(
         {
             type: "READY",
-            payload: payload,
+            payload: payload
         },
         $("#video-player #front-service-url").val()
     );
@@ -46,7 +46,7 @@ function resizeIframe(event) {
 
     const data = event.data;
     if (data?.type === "RESIZE") {
-        iframe.style.height = data.payload.videoHeight + "px";
+        iframe.style.height = `${data.payload.videoHeight}px`;
     }
 }
 
@@ -92,7 +92,7 @@ export const setUrlAndType = (
     }
 };
 
-$(".toggle-video-player-fullscreen").on("click", function () {
+$(".toggle-video-player-fullscreen").on("click", () => {
     if (!window.videoPayload) {
         return;
     }

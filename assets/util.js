@@ -27,6 +27,6 @@ export const alertMessage = (message, type, duration = 2000) => {
         gravity: "top",
         position: "right",
         close: true,
-        className: `toast-${type}`,
+        className: `toast-${type}`
     }).showToast();
 };

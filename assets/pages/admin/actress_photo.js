@@ -21,7 +21,7 @@ $(".delete-actress-photo").on("click", async function (e) {
 
     const response = await fetch($(this).attr("href"), {
         method: "DELETE",
-        headers: { "X-Requested-With": "XMLHttpRequest" },
+        headers: { "X-Requested-With": "XMLHttpRequest" }
     });
 
     let message, type;
@@ -43,9 +43,9 @@ $(".activate-actress-photo").on("change", async function (e) {
         method: "PATCH",
         headers: {
             "X-Requested-With": "XMLHttpRequest",
-            "Content-Type": "application/json",
+            "Content-Type": "application/json"
         },
-        body: JSON.stringify({ visible: $(this).prop("checked") }),
+        body: JSON.stringify({ visible: $(this).prop("checked") })
     });
 
     let message, type;
