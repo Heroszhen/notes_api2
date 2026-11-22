@@ -56,7 +56,24 @@
             {% endif %}
           </ul>
         </li>
-        
+        <li class="nav-item dropdown">
+          <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+            Blog
+          </a>
+          <ul class="dropdown-menu">
+            <li>
+              <a 
+                class="dropdown-item {% if app.request.attributes.get('_route') == 'app_admin_blog_categories' %}active{% endif %}" href="{{ path('app_admin_blog_categories') }}">
+                Catégories
+              </a>
+            </li>
+            <li>
+              <a>
+                Actrices
+              </a>
+            </li>
+          </ul>
+        </li>
       </ul>
       <div class="d-flex" >
         <a class="btn btn-outline-info" href="{{ path('app_logout') }}">Déconnexion</a>
