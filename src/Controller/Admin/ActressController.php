@@ -39,7 +39,7 @@ final class ActressController extends AbstractMainController
     public function index(Request $request): Response
     {
         $openedForm = false;
-        $qb = $this->actressRepository->createQueryBuilder('actress')->orderBy('actress.name', 'ASC');
+        $qb = $this->actressRepository->createQueryBuilder('actress')->orderBy('actress.createdAt', 'DESC');
 
         $actressSearchModel = new ActressSearchModel();
         $form = $this->createForm(ActressSearchType::class, $actressSearchModel);
@@ -54,9 +54,9 @@ final class ActressController extends AbstractMainController
             $request->query->getInt('page', 1),
             20,
             [
-                'defaultSortFieldName' => 'actress.name',
-                'defaultSortDirection' => 'asc',
-                'sortFieldAllowList' => ['actress.name', 'actress.country', 'actress.birthday'],
+                'defaultSortFieldName' => 'actress.createdAt',
+                'defaultSortDirection' => 'DESC',
+                'sortFieldAllowList' => ['actress.name', 'actress.country', 'actress.birthday', 'actress.createdAt'],
             ]
         );
 

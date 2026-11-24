@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Controller\Admin\Blog;
 
 use App\Entity\Blog\Category;
@@ -66,7 +68,7 @@ final class CategoryController extends AbstractController
             return $this->json(null, Response::HTTP_FORBIDDEN);
         }
 
-        if (!$this->isCsrfTokenValid('delete' . $id, $request->query->getString('_token'))) {
+        if (!$this->isCsrfTokenValid('delete'.$id, $request->query->getString('_token'))) {
             return $this->json(null, Response::HTTP_FORBIDDEN);
         }
 

@@ -1,9 +1,11 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Controller\Admin\Blog;
 
 use App\Repository\Blog\ArticleRepository;
-use Doctrine\ORM\EntityManagerInterface;
+// use Doctrine\ORM\EntityManagerInterface;
 use Knp\Component\Pager\PaginatorInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -18,7 +20,7 @@ final class ArticleController extends AbstractController
     public function __construct(
         private readonly ArticleRepository $actressRepository,
         private readonly PaginatorInterface $paginator,
-        private readonly EntityManagerInterface $entityManager,
+        // private readonly EntityManagerInterface $entityManager,
     ) {
     }
 
@@ -52,7 +54,6 @@ final class ArticleController extends AbstractController
         return $this->render('admin/blog/article/index.html.twig', [
             'articles' => $articles,
             'openedForm' => $openedForm,
-
         ]);
     }
 }

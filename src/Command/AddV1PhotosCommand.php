@@ -18,7 +18,7 @@ use Symfony\Component\DependencyInjection\Attribute\Autowire;
 use Symfony\Component\Filesystem\Filesystem;
 
 /**
- * @exemple php bin/console app:add-v1-photos --filename=photos.txt
+ * @example php bin/console app:add-v1-photos --filename=photos.txt
  */
 #[AsCommand(
     name: 'app:add-v1-photos',

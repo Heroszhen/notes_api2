@@ -51,6 +51,9 @@
                 <th scope="col">
                     {{ knp_pagination_sortable(actresses, 'Née', 'actress.birthday') }}
                 </th>
+                <th scope="col">
+                    {{ knp_pagination_sortable(actresses, 'Ajoutée', 'actress.createdAt') }}
+                </th>
                 <th scope="col">Actions</th>
             </tr>
         </thead>
@@ -65,6 +68,7 @@
                 </td>
                 <td>{{ actress.country }}</td>
                 <td>{{ actress.birthday ? actress.birthday|date('d/m/Y') : '' }}</td>
+                <td>{{ actress.createdAt|date('d/m/Y') }}</td>
                 <td>
                     <a class="btn btn-sm btn-outline-info me-2" href="{{ path('app_admin_edit_actress', {id: actress.id}) }}">Modifier</a>
                 </td>

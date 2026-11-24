@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Form\Blog;
 
 use App\Entity\Blog\Category;
@@ -19,7 +21,7 @@ class CategoryType extends AbstractType
                 'label_attr' => ['class' => 'form-label'],
                 'empty_data' => '',
                 'required' => true,
-            ]);;
+            ]);
     }
 
     public function configureOptions(OptionsResolver $resolver): void

@@ -18,7 +18,7 @@ use Symfony\Component\DependencyInjection\Attribute\Autowire;
 use Symfony\Component\Filesystem\Filesystem;
 
 /**
- * @exemple php bin/console app:add-v1-videos --filename=video.csv
+ * @example php bin/console app:add-v1-videos --filename=video.csv
  */
 #[AsCommand(
     name: 'app:add-v1-videos',

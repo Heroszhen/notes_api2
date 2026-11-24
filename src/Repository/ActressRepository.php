@@ -57,7 +57,8 @@ class ActressRepository extends ServiceEntityRepository
                 )
             )
             ->setParameter('name', "%{$model->getKeywords()}%")
-            ->setParameter('description', "%{$model->getKeywords()}%");
+            ->setParameter('description', "%{$model->getKeywords()}%")
+            ->orderBy('actress.createdAt', 'DESC');
 
         if (!empty($model->getCountry())) {
             $qb

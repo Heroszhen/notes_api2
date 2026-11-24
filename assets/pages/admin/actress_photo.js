@@ -9,7 +9,7 @@ $("#actress_photo_photos").on("change", function () {
             .attr("src", url)
             .on("load", () => URL.revokeObjectURL(url));
 
-        $("<div class='col-6 col-md-4 col-lg-3 mb-3'></div>")
+        $("<div class='col-4 col-md-3 col-lg-2 mb-3'></div>")
             .append(img)
             .appendTo("#wrap-photos");
     });

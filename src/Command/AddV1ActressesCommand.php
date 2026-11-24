@@ -16,7 +16,7 @@ use Symfony\Component\DependencyInjection\Attribute\Autowire;
 use Symfony\Component\Filesystem\Filesystem;
 
 /**
- * @exemple php bin/console app:add-v1-actresses --filename=actresses.txt
+ * @example php bin/console app:add-v1-actresses --filename=actresses.txt
  */
 #[AsCommand(
     name: 'app:add-v1-actresses',
