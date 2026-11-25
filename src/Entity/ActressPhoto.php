@@ -6,6 +6,7 @@ namespace App\Entity;
 
 use App\Repository\ActressPhotoRepository;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Serializer\Attribute\Groups;
 use Symfony\Component\Validator\Constraints as Assert;
 
 #[ORM\Entity(repositoryClass: ActressPhotoRepository::class)]
@@ -21,6 +22,7 @@ class ActressPhoto extends AbstractEntity
 
     #[ORM\OneToOne(cascade: ['persist', 'remove'])]
     #[ORM\JoinColumn(nullable: false)]
+    #[Groups(['actress:detail'])]
     private MediaObject $photo;
 
     public function getActress(): ?Actress

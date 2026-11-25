@@ -20,31 +20,6 @@ class ActressRepository extends ServiceEntityRepository
         parent::__construct($registry, Actress::class);
     }
 
-    //    /**
-    //     * @return Actress[] Returns an array of Actress objects
-    //     */
-    //    public function findByExampleField($value): array
-    //    {
-    //        return $this->createQueryBuilder('a')
-    //            ->andWhere('a.exampleField = :val')
-    //            ->setParameter('val', $value)
-    //            ->orderBy('a.id', 'ASC')
-    //            ->setMaxResults(10)
-    //            ->getQuery()
-    //            ->getResult()
-    //        ;
-    //    }
-
-    //    public function findOneBySomeField($value): ?Actress
-    //    {
-    //        return $this->createQueryBuilder('a')
-    //            ->andWhere('a.exampleField = :val')
-    //            ->setParameter('val', $value)
-    //            ->getQuery()
-    //            ->getOneOrNullResult()
-    //        ;
-    //    }
-
     public function findBySearchForm(ActressSearchModel $model): QueryBuilder
     {
         $qb = $this->createQueryBuilder('actress');
@@ -67,5 +42,17 @@ class ActressRepository extends ServiceEntityRepository
         }
 
         return $qb;
+    }
+
+    /**
+     * @return string[]
+     */
+    public function findCountries(): array
+    {
+        return $this->createQueryBuilder('actress')
+            ->select('DISTINCT actress.country')
+            ->orderBy('actress.country', 'ASC')
+            ->getQuery()
+            ->getSingleColumnResult();
     }
 }

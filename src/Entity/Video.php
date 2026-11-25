@@ -70,7 +70,7 @@ class Video extends AbstractEntity
 {
     #[ORM\Column(length: 255)]
     #[Assert\NotBlank]
-    #[Groups(['video:o'])]
+    #[Groups(['video:o', 'actress:detail'])]
     private ?string $title = null;
 
     #[ORM\ManyToOne(inversedBy: 'videos')]
@@ -79,28 +79,28 @@ class Video extends AbstractEntity
     private ?Actress $actress = null;
 
     #[ORM\Column(type: Types::TEXT, nullable: true)]
-    #[Groups(['video:o'])]
+    #[Groups(['video:o', 'actress:detail'])]
     private ?string $description = null;
 
     #[ORM\OneToOne(cascade: ['persist', 'remove'])]
-    #[Groups(['video:o'])]
+    #[Groups(['video:o', 'actress:detail'])]
     private ?MediaObject $photo = null;
 
     #[ORM\Column(type: Types::TEXT)]
-    #[Groups(['video:o'])]
+    #[Groups(['video:o', 'actress:detail'])]
     private ?string $videoUrl = null;
 
     #[ORM\Column]
     private bool $visible = true;
 
     #[ORM\Column(enumType: VideoTypeEnum::class)]
-    #[Groups(['video:o'])]
+    #[Groups(['video:o', 'actress:detail'])]
     private VideoTypeEnum $videoType = VideoTypeEnum::EXTERN;
 
     #[ORM\Column(type: Types::TEXT)]
     #[Assert\NotBlank]
     #[Assert\Url(protocols: ['https'], requireTld: true)]
-    #[Groups(['video:o'])]
+    #[Groups(['video:o', 'actress:detail'])]
     private ?string $website = null;
 
     /**

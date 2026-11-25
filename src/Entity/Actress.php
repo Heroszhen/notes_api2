@@ -4,9 +4,14 @@ declare(strict_types=1);
 
 namespace App\Entity;
 
+use ApiPlatform\Doctrine\Orm\Filter\ExactFilter;
+use ApiPlatform\Doctrine\Orm\Filter\PartialSearchFilter;
 use ApiPlatform\Metadata\ApiResource;
 use ApiPlatform\Metadata\Get;
 use ApiPlatform\Metadata\GetCollection;
+use ApiPlatform\Metadata\QueryParameter;
+use App\Dto\ActressDetailOutput;
+use App\Provider\ActressDetailProvider;
 use App\Repository\ActressRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
@@ -26,40 +31,68 @@ use Symfony\Component\Validator\Constraints as Assert;
     normalizationContext: ['groups' => ['default', 'actress:name']],
     order: ['name' => 'ASC']
 )]
-#[Get]
+#[GetCollection(
+    uriTemplate: '/actresses/list',
+    name: 'actresses_list',
+    paginationEnabled: true,
+    normalizationContext: ['groups' => ['default', 'actress:list']],
+    order: ['createdAt' => 'DESC'],
+    parameters: [
+        'search[:property]' => new QueryParameter(
+            properties: ['name'],
+            filter: new PartialSearchFilter(),
+        ),
+        'country' => new QueryParameter(
+            filter: new ExactFilter(),
+            property: 'country',
+        ),
+    ],
+)]
+#[Get(
+    provider: ActressDetailProvider::class,
+    output: ActressDetailOutput::class,
+    normalizationContext: ['groups' => ['default', 'actress:detail']],
+)]
 #[ORM\Entity(repositoryClass: ActressRepository::class)]
 #[UniqueEntity('name')]
 class Actress extends AbstractEntity
 {
     #[ORM\Column(length: 255, unique: true)]
     #[Assert\NotBlank]
-    #[Groups(['video:o', 'actress:name'])]
+    #[Groups(['video:o', 'actress:name', 'actress:list', 'actress:detail'])]
     private ?string $name = null;
 
     #[ORM\Column(length: 50)]
     #[Assert\NotBlank]
+    #[Groups(['actress:detail'])]
     private ?string $country = null;
 
     #[ORM\Column(nullable: true)]
+    #[Groups(['actress:detail'])]
     private ?\DateTimeImmutable $birthday = null;
 
     #[ORM\Column(type: Types::TEXT, nullable: true)]
+    #[Groups(['actress:detail'])]
     private ?string $description = null;
 
     #[ORM\ManyToOne]
-    #[Groups(['video:o'])]
+    #[Groups(['video:o', 'actress:list', 'actress:detail'])]
     private ?MediaObject $photo = null;
 
     /**
      * @var Collection<int, ActressPhoto>
      */
     #[ORM\OneToMany(targetEntity: ActressPhoto::class, mappedBy: 'actress', orphanRemoval: true)]
+    #[Groups(['actress:detail'])]
+    #[ORM\OrderBy(['createdAt' => 'DESC'])]
     private Collection $images;
 
     /**
      * @var Collection<int, Video>
      */
     #[ORM\OneToMany(targetEntity: Video::class, mappedBy: 'actress')]
+    #[Groups(['actress:detail'])]
+    #[ORM\OrderBy(['createdAt' => 'DESC'])]
     private Collection $videos;
 
     public function __construct()

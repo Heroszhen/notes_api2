@@ -12,7 +12,7 @@ use Symfony\Component\Serializer\Attribute\Groups;
 class MediaObject extends AbstractEntity
 {
     #[ORM\Column(length: 255)]
-    #[Groups(['video:o'])]
+    #[Groups(['video:o', 'actress:list', 'actress:detail'])]
     private ?string $name = null;
 
     #[ORM\Column(length: 255)]
